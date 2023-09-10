@@ -1,7 +1,7 @@
 <template>
-    <Head title="Users" />
+    <Head title="Artists" />
     <div class="d-flex justify-space-between">
-        <div class="text-h3">Users</div>
+        <div class="text-h3">Artists</div>
         <div style="width: 30%">
             <v-text-field v-model="search" label="Find"></v-text-field>
         </div>
@@ -23,7 +23,7 @@
         </thead>
         <tbody>
         <tr
-            v-for="item in users.data"
+            v-for="item in artists.data"
             :key="item.id"
         >
             <td>{{ item.name }}</td>
@@ -33,7 +33,7 @@
         <tr>
             <td colspan="3">
                 <component
-                    v-for="link in users.links"
+                    v-for="link in artists.links"
                     class="mx-2"
                     :class="{'text-gray-400': !link.url, 'font-bold': link.active}"
                 >
@@ -41,7 +41,7 @@
                     <span v-else v-html="link.label" class="text-gray-400"></span>
                 </component >
 
-<!--                <v-pagination :length="users.links.length-2"></v-pagination>-->
+                <!--                <v-pagination :length="users.links.length-2"></v-pagination>-->
             </td>
         </tr>
         </tbody>
@@ -53,19 +53,18 @@ import {Link, router} from '@inertiajs/vue3';
 import {ref, watch} from "vue";
 
 let props = defineProps({
-    users: Object,
+    artists: Object,
     filters: Object
 })
 
 let search = ref(props.filters.search);
 
 watch(search, value => {
-    router.get('users', { search: value }, {
+    router.get('artists', { search: value }, {
         preserveState: true,
         replace: true
     })
 })
-
 </script>
 
 <style scoped>

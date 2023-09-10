@@ -3,7 +3,7 @@
         flat
         rounded="0"
     >
-        <v-toolbar
+        <v-toolbar fixed
             :elevation="8"
             color="blue-grey-darken-4"
         >
@@ -59,21 +59,6 @@
 <script setup>
 import {Link} from '@inertiajs/vue3';
 
-</script>
-
-<script>
-export default {
-    el: '#app',
-    data () {
-        return {
-            drawer: false,
-            tab: null,
-            items: [
-                'web', 'shopping', 'videos', 'images', 'news',
-            ],
-        }
-    }
-}
 </script>
 
 <style scoped>
@@ -162,7 +147,6 @@ export default {
 }
 </script>-->
 
-
 <template>
     <v-card>
         <v-layout>
@@ -186,17 +170,35 @@ export default {
                             </v-btn>
                         </Link>
 
-                        <Link :href="route('admin.users')">
-                            <v-btn :variant="$page.component === 'Admin/Users' ? 'tonal' : 'text'">
-                                Users
-                            </v-btn>
-                        </Link>
+                        <span v-if="$page.props.auth.user.role === 'admin'">
+                            <Link :href="route('admin.users')">
+                                <v-btn :variant="$page.component === 'Admin/Users' ? 'tonal' : 'text'">
+                                    Users
+                                </v-btn>
+                            </Link>
 
-                        <Link :href="route('logout')" method="post" as="button">
-                            <v-btn prepend-icon="mdi-account">
+                            <Link :href="route('admin.artists')">
+                                <v-btn :variant="$page.component === 'Admin/Artists' ? 'tonal' : 'text'">
+                                    Artists
+                                </v-btn>
+                            </Link>
+                        </span>
+
+                        <span v-if="$page.props.auth.user.role === 'artist'">
+                            <Link :href="route('artist.myAlbums')">
+                                <v-btn :variant="$page.component === 'Artist/MyAlbums' ? 'tonal' : 'text'">
+                                    My Albums
+                                </v-btn>
+                            </Link>
+                        </span>
+
+
+                            <v-btn prepend-icon="mdi-account" @click="overlay = !overlay">
                                 {{ $page.props.auth.user.name }}
                             </v-btn>
-                        </Link>
+
+
+
                     </div>
                     <div v-else>
                         <Link :href="route('login')">
@@ -213,6 +215,23 @@ export default {
                     </div>
                 </div>
             </v-app-bar>
+
+            <v-navigation-drawer
+                v-model="overlay"
+                location="right"
+                width="100"
+                temporary
+            >
+                <v-list>
+                    <Link :href="route('logout')" method="post" as="button">
+                        <v-btn block variant='text' @click="overlay = !overlay">
+                            Logout
+                        </v-btn>
+                    </Link>
+                </v-list>
+            </v-navigation-drawer>
+
+
 
             <v-navigation-drawer
                 v-model="drawer"
@@ -233,6 +252,8 @@ export default {
                 </v-list>
             </v-navigation-drawer>
         </v-layout>
+
+
     </v-card>
 </template>
 
@@ -241,6 +262,7 @@ import {Link} from '@inertiajs/vue3';
 export default {
     components: {Link},
     data: () => ({
+        overlay: false,
         drawer: false,
         group: null,
         items: [

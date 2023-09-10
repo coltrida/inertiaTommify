@@ -11,7 +11,16 @@ class AdminController extends Controller
     public function users(UserService $userService)
     {
         return Inertia::render('Admin/Users', [
-            'users' => $userService->listOfUsers()
+            'users' => $userService->listOfUsers(),
+            'filters' => \Illuminate\Support\Facades\Request::only('search')
+        ]);
+    }
+
+    public function artists(UserService $userService)
+    {
+        return Inertia::render('Admin/Artists', [
+            'artists' => $userService->listOfArtists(),
+            'filters' => \Illuminate\Support\Facades\Request::only('search')
         ]);
     }
 }

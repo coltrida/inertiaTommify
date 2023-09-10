@@ -40,6 +40,6 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
         ]);
 
-        User::factory(4)->create();
+        User::factory(20)->create();
     }
 }

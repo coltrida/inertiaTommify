@@ -50,7 +50,7 @@ class User extends Authenticatable
         return $query->where('role', 'user');
     }
 
-    public function scopeArtist($query)
+    public function scopeArtisti($query)
     {
         return $query->where('role', 'artist');
     }
@@ -65,6 +65,21 @@ class User extends Authenticatable
 
     public function isUser() {
         return $this->role === 'user';
+    }
+
+    public function artist()
+    {
+        return $this->hasOne(Artist::class);
+    }
+
+    public function albumSales()
+    {
+        return $this->belongsToMany(Album::class, 'album_sales', 'user_id', 'album_id');
+    }
+
+    public function artistSales()
+    {
+        return $this->belongsToMany(Artist::class, 'artist_sales', 'user_id', 'artist_id');
     }
 
 }

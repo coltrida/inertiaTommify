@@ -1,15 +1,21 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
+
+//-------------------Admin------------------------------
 Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+Route::get('/artists', [AdminController::class, 'artists'])->name('admin.artists');
 
-
+//-------------------Artist----------------------------
+Route::get('/myAlbums', [ArtistController::class, 'myAlbums'])->name('artist.myAlbums');
+Route::post('/myAlbums/create', [ArtistController::class, 'storeAlbum'])->name('artist.myAlbums.create');
 
 
 
