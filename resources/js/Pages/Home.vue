@@ -1,18 +1,13 @@
 <template>
     <Head title="Home" />
-    <Menu />
-
-    <v-container>
-        <h2>Home</h2>
-    </v-container>
-
+    <div class="text-h3">Home</div>
 </template>
 
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import Menu from "@/Components/Menu.vue";
+import { Link } from '@inertiajs/vue3';
 
 </script>
+
 
 <style scoped>
 
