@@ -10,10 +10,10 @@
     <v-table theme="dark">
         <thead>
         <tr style="background: #9ca3af;">
-            <th class="text-left text-black">
+            <th class="text-left text-black" style="width: 400px">
                 Name
             </th>
-            <th class="text-left text-black">
+            <th class="text-left text-black" style="width: 400px">
                 Email
             </th>
             <th class="text-left text-black">
@@ -34,10 +34,10 @@
             <td colspan="3">
                 <component
                     v-for="link in users.links"
-                    class="mx-2"
-                    :class="{'text-gray-400': !link.url, 'font-bold': link.active}"
+                    class="mx-1 p-2" style="border: white 1px solid"
+                    :class="{'text-gray-400': !link.url, 'font-bold; bg-white': link.active}"
                 >
-                    <Link v-if="link.url" :href="link.url" v-html="link.label"></Link>
+                    <Link v-if="link.url" :href="link.url" v-html="link.label" class="px-2"></Link>
                     <span v-else v-html="link.label" class="text-gray-400"></span>
                 </component >
 

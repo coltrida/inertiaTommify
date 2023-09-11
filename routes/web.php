@@ -12,6 +12,7 @@ Route::get('/', [FrontController::class, 'index'])->name('home');
 //-------------------Admin------------------------------
 Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
 Route::get('/artists', [AdminController::class, 'artists'])->name('admin.artists');
+Route::get('/albums', [AdminController::class, 'albums'])->name('admin.albums');
 
 //-------------------Artist----------------------------
 Route::get('/myAlbums', [ArtistController::class, 'myAlbums'])->name('artist.myAlbums');
