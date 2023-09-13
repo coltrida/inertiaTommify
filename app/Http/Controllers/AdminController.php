@@ -9,6 +9,11 @@ use Inertia\Inertia;
 
 class AdminController extends Controller
 {
+    public function home()
+    {
+        return Inertia::render('Admin/Home');
+    }
+
     public function users(UserService $userService)
     {
         return Inertia::render('Admin/Users', [

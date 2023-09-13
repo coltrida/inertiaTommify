@@ -6,13 +6,20 @@ use App\Services\ArtistService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class ArtistController extends Controller
 {
+    public function home()
+    {
+        return Inertia::render('Artist/Home');
+    }
+
     public function myAlbums(ArtistService $artistService)
     {
         return Inertia::render('Artist/MyAlbums', [
-            'myAlbums' => $artistService->myAlbums(Auth::id())
+            'artistConMyAlbums' => $artistService->artistConMyAlbums(Auth::id()),
+            'filters' => \Illuminate\Support\Facades\Request::only('search')
         ]);
     }
 
@@ -26,6 +33,11 @@ class ArtistController extends Controller
         ]);
 
         $request->merge(['artist_id' => Auth::id()]);
-        $artistService->createAlbum($request);
+        $album = $artistService->createAlbum($request);
+        if ($request->hasFile('cover')){
+            $file = $request->file('cover')[0];
+            $filename = $album->id . '.jpg';
+            $file->storeAs('public/covers/', $filename);
+        }
     }
 }

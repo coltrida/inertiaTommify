@@ -23,6 +23,33 @@ class AlbumService
                 'artist' => $album->artist->user->name,
                 'nrSongs' => $album->songs_count,
             ]);
+    }
 
+    public function lastCinqueAlbum()
+    {
+        /*dd(Album::latest()->limit(5)->get()->map(fn($album) => [
+            'id' => $album->id,
+            'name' => $album->name,
+        ]));*/
+        return Album::latest()->limit(5)->get()->map(fn($album) => [
+            'id' => $album->id,
+            'name' => $album->name,
+        ]);
+    }
+
+    public function bestCinqueAlbumSellers()
+    {
+        /*dd(Album::withCount('userSales')->with('userSales')->limit(5)->get()->sortByDesc(function ($album){
+            return $album->userSales()->count();
+        })->map(fn($album) => [
+            'id' => $album->id,
+            'name' => $album->name,
+        ]));*/
+        return Album::withCount('userSales')->with('userSales')->limit(5)->get()->sortByDesc(function ($album){
+            return $album->userSales()->count();
+        })->map(fn($album) => [
+            'id' => $album->id,
+            'name' => $album->name,
+        ]);
     }
 }

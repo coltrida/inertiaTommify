@@ -34,14 +34,12 @@
             <td colspan="3">
                 <component
                     v-for="link in users.links"
-                    class="mx-1 p-2" style="border: white 1px solid"
+                    class="mx-1 p-2" style="border: white 1px solid; border-radius: 5px"
                     :class="{'text-gray-400': !link.url, 'font-bold; bg-white': link.active}"
                 >
                     <Link v-if="link.url" :href="link.url" v-html="link.label" class="px-2"></Link>
                     <span v-else v-html="link.label" class="text-gray-400"></span>
                 </component >
-
-<!--                <v-pagination :length="users.links.length-2"></v-pagination>-->
             </td>
         </tr>
         </tbody>

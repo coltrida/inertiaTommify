@@ -15,13 +15,12 @@
 
             <div class="d-none d-sm-flex">
                 <div v-if="$page.props.auth.user">
-                    <Link :href="route('home')">
-                        <v-btn :variant="$page.component === 'Home' ? 'tonal' : 'text'">
-                            Home
-                        </v-btn>
-                    </Link>
-
                     <span v-if="$page.props.auth.user.role === 'admin'">
+                        <Link :href="route('admin.home')">
+                            <v-btn :variant="$page.component === 'Home' ? 'tonal' : 'text'">
+                                Home
+                            </v-btn>
+                        </Link>
                         <Link :href="route('admin.users')">
                             <v-btn :variant="$page.component === 'Admin/Users' ? 'tonal' : 'text'">
                                 Users
@@ -40,6 +39,11 @@
                     </span>
 
                     <span v-if="$page.props.auth.user.role === 'artist'">
+                        <Link :href="route('artist.home')">
+                            <v-btn :variant="$page.component === 'Home' ? 'tonal' : 'text'">
+                                Home
+                            </v-btn>
+                        </Link>
                         <Link :href="route('artist.myAlbums')">
                             <v-btn :variant="$page.component === 'Artist/MyAlbums' ? 'tonal' : 'text'">
                                 My Albums

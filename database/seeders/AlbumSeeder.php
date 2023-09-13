@@ -15,7 +15,28 @@ class AlbumSeeder extends Seeder
     public function run(): void
     {
         $artists = Artist::all();
-        foreach ($artists as $artist){
+
+        $vitali = $artists->first();
+        Album::insert([
+            [
+                'name' => 'album1',
+                'artist_id' => $vitali->id
+            ],
+            [
+                'name' => 'album2',
+                'artist_id' => $vitali->id
+            ],
+            [
+                'name' => 'album3',
+                'artist_id' => $vitali->id
+            ],
+        ]);
+
+        $artistsFiltered = $artists->filter(function ($artist){
+            return $artist->id != 1;
+        });
+
+        foreach ($artistsFiltered as $artist){
             $numberOfAlbum = rand(1,3);
             Album::factory($numberOfAlbum)->create([
                 'artist_id' => $artist->id

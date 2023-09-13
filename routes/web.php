@@ -10,14 +10,19 @@ use Inertia\Inertia;
 Route::get('/', [FrontController::class, 'index'])->name('home');
 
 //-------------------Admin------------------------------
-Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-Route::get('/artists', [AdminController::class, 'artists'])->name('admin.artists');
-Route::get('/albums', [AdminController::class, 'albums'])->name('admin.albums');
+Route::prefix('admin')->group(function () {
+    Route::get('/home', [AdminController::class, 'home'])->name('admin.home');
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/artists', [AdminController::class, 'artists'])->name('admin.artists');
+    Route::get('/albums', [AdminController::class, 'albums'])->name('admin.albums');
+});
 
 //-------------------Artist----------------------------
-Route::get('/myAlbums', [ArtistController::class, 'myAlbums'])->name('artist.myAlbums');
-Route::post('/myAlbums/create', [ArtistController::class, 'storeAlbum'])->name('artist.myAlbums.create');
-
+Route::prefix('artist')->group(function () {
+    Route::get('/home', [ArtistController::class, 'home'])->name('artist.home');
+    Route::get('/myAlbums', [ArtistController::class, 'myAlbums'])->name('artist.myAlbums');
+    Route::post('/myAlbums/create', [ArtistController::class, 'storeAlbum'])->name('artist.myAlbums.create');
+});
 
 
 Route::get('/dashboard', function () {

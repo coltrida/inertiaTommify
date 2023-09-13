@@ -17,7 +17,8 @@ class AlbumSalesSeeder extends Seeder
         $users = User::with('albumSales')->utenti()->get();
         $albumIds = Album::count() - 1;
         foreach ($users as $user){
-            $user->albumSales()->sync([rand(1, $albumIds), rand(1, $albumIds), rand(1, $albumIds)]);
+//            $user->albumSales()->sync([rand(1, $albumIds), rand(1, $albumIds), rand(1, $albumIds)]);
+            $user->albumSales()->sync([rand(1, 3), rand(1, 3), rand(1, 3)]);
         }
     }
 }
