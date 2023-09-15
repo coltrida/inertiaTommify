@@ -15,6 +15,13 @@
 
             <div class="d-none d-sm-flex">
                 <div v-if="$page.props.auth.user">
+
+                    <v-btn class="text-none" stacked>
+                        <v-badge content="2" color="error">
+                            <v-icon>mdi-bell-outline</v-icon>
+                        </v-badge>
+                    </v-btn>
+
                     <span v-if="$page.props.auth.user.role === 'admin'">
                         <Link :href="route('admin.home')">
                             <v-btn :variant="$page.component === 'Home' ? 'tonal' : 'text'">

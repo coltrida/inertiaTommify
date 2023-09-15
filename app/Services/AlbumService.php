@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Album;
+use App\Models\Song;
 use Illuminate\Support\Facades\Request;
 
 class AlbumService
@@ -51,5 +52,20 @@ class AlbumService
             'id' => $album->id,
             'name' => $album->name,
         ]);
+    }
+
+    public function albumConSongs($idAlbum)
+    {
+        /*dd(Album::select('id','name')->with(['songs' => function($s){
+            $s->latest()->select('id', 'album_id', 'name');
+        }])->find($idAlbum));*/
+        return Album::select('id','name')->with(['songs' => function($s){
+            $s->latest()->select('id', 'album_id', 'name');
+        }])->find($idAlbum);
+    }
+
+    public function addSong($request)
+    {
+        return Song::create($request->only(['name', 'album_id']));
     }
 }
