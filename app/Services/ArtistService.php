@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Album;
 use App\Models\Artist;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
 class ArtistService
@@ -90,5 +92,26 @@ class ArtistService
             ->get()->sortByDesc(function ($album){
                 return $album->userSales()->count();
             })->first();
+    }
+
+    public function countOfArtistGroupByMonths()
+    {
+        //  dd(User::utenti()->count());
+        /*dd(User::utenti()->select(DB::raw('count(id) as `data`'), DB::raw("DATE_FORMAT(created_at, '%m-%Y') new_date"),  DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
+            ->groupby('year','month')
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->get());*/
+
+        return Artist::select(DB::raw('count(id) as `data`'), DB::raw("DATE_FORMAT(created_at, '%m-%Y') new_date"),  DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupby('year','month')
+            ->orderBy('month', 'asc')
+            ->get();
+    }
+
+    public function countOfArtists()
+    {
+        return Artist::count();
     }
 }

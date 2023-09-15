@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $guarded = [];
-    protected $appends = ['created'];
+    protected $appends = ['created', 'mese'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -39,6 +39,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getMeseAttribute()
+    {
+        return $this->created_at ? $this->created_at->month : null;
+    }
 
     public function getCreatedAttribute()
     {

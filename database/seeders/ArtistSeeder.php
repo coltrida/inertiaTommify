@@ -19,7 +19,8 @@ class ArtistSeeder extends Seeder
         $artists = User::where('role', 'artist')->get();
         foreach ($artists as $artist){
             Artist::create([
-                'user_id' => $artist->id
+                'user_id' => $artist->id,
+                'created_at' => fake()->dateTimeBetween('-1 year')
             ]);
         }
     }

@@ -1,14 +1,28 @@
 <template>
-
         <v-row>
             <v-col>
                 <v-sheet rounded elevation="3" class="mt-2 p-3">
-                    Nr. of Albums: {{infoArtistConAlbumEvendite.albums_count}}
+                    Nr. of Albums:
+                    <v-chip
+                        class="ma-2"
+                        color="primary"
+                        variant="outlined"
+                    >
+
+                        {{infoArtistConAlbumEvendite.albums_count}}
+                    </v-chip>
                 </v-sheet>
             </v-col>
             <v-col>
                 <v-sheet rounded elevation="3" class="mt-2 p-3">
-                    Nr. of Clients: {{infoArtistConAlbumEvendite.user_sales_count}}
+                    Nr. of Clients:
+                    <v-chip
+                        class="ma-2"
+                        color="primary"
+                        variant="outlined"
+                    >
+                        {{infoArtistConAlbumEvendite.user_sales_count}}
+                    </v-chip>
                 </v-sheet>
             </v-col>
         </v-row>

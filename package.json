@@ -18,6 +18,8 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "chart.js": "^4.4.0",
+        "vue-chartjs": "^5.2.0",
         "vuetify": "^3.3.15"
     }
 }

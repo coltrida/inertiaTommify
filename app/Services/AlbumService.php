@@ -68,4 +68,9 @@ class AlbumService
     {
         return Song::create($request->only(['name', 'album_id']));
     }
+
+    public function countOfAlbums()
+    {
+        return Album::count();
+    }
 }
