@@ -31,7 +31,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $albums = User::find($request->user()->id)->albumSales;
+        $albums = $request->user() ? User::find($request->user()->id)->albumSales : [];
         $songs = [];
         foreach ($albums as $album){
             array_push($songs, ...$album->songs);

@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Artist;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
@@ -60,5 +62,36 @@ class UserService
     public function countOfUsers()
     {
         return User::utenti()->count();
+    }
+
+    public function userConMyArtists()
+    {
+        /*dd(
+            User::with(['artistSales' => function($a){
+                $a->with(['user' => function($u){
+                    $u->when(Request::input('search'), function ($query, $search){
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+                }]);
+            }])->find(Auth::id())
+            );*/
+
+        /*return User::with(['artistSales' => function($a){
+                $a->with(['user' => function($u){
+                    $u->when(Request::input('search'), function ($query, $search){
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+                }]);
+            }])
+            ->find(Auth::id());*/
+
+        return User::with(['artistSales' => function($a){
+            $a->with('user')->when(Request::input('search'), function ($query, $search){
+                    $query->whereHas('user', function ($u) use ($search){
+                        $u->where('name', 'like', "%{$search}%");
+                    });
+                });
+            }])
+            ->find(Auth::id());
     }
 }
