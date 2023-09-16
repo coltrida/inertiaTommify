@@ -114,4 +114,16 @@ class ArtistService
     {
         return Artist::count();
     }
+
+    public function allArtists()
+    {
+        return Artist::with('user')
+            ->when(Request::input('search'), function ($query, $search){
+                $query->whereHas('user', function ($u) use ($search){
+                    $u->where('name', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->get();
+    }
 }
