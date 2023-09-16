@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\createAlbumEvent;
+use App\Models\Artist;
+use App\Models\News;
 use App\Services\AlbumService;
 use App\Services\ArtistService;
 use Illuminate\Http\Request;
@@ -36,13 +39,23 @@ class ArtistController extends Controller
             'name.required' => 'Nome Album obbligatorio!',
         ]);
 
-        $request->merge(['artist_id' => Auth::id()]);
+        $request->merge(['artist_id' => Auth::user()->artist->id]);
         $album = $artistService->createAlbum($request);
         if ($request->hasFile('cover')){
             $file = $request->file('cover')[0];
             $filename = $album->id . '.jpg';
             $file->storeAs('public/covers/', $filename);
         }
+
+        $news = News::create([
+            'message' => Auth::user()->name." has created new Album"
+        ]);
+
+        $usersSalesOfThisArtist = Artist::with('userSales')->find(Auth::user()->artist->id)->userSales;
+
+        $news->users()->attach($usersSalesOfThisArtist);
+
+        broadcast(new createAlbumEvent($news))->toOthers();
     }
 
     public function addSongs($idAlbum, AlbumService $albumService)

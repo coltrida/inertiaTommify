@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AlbumService;
 use App\Services\ArtistService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use function Termwind\render;
 
 class UserController extends Controller
 {
@@ -29,6 +31,13 @@ class UserController extends Controller
     {
         return Inertia::render('User/AlbumsOfArtist', [
             'artistConAlbums' => $artistService->artistConAlbums($idArtist)
+        ]);
+    }
+
+    public function songsOfAlbum($idAlbum, AlbumService $albumService)
+    {
+        return Inertia::render('User/SongsOfAlbum', [
+            'albumConSongs' => $albumService->albumConSongs($idAlbum)
         ]);
     }
 }

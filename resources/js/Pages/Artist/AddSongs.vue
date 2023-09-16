@@ -19,7 +19,7 @@
                     >
                         <v-text-field
                             v-model="form.name"
-                            label="Album name"
+                            label="Song name"
                             required
                             hide-details
                         ></v-text-field>

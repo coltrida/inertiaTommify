@@ -31,6 +31,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $news = $request->user() ? User::find($request->user()->id)->newsNotRead : [];
         $albums = $request->user() ? User::find($request->user()->id)->albumSales : [];
         $songs = [];
         foreach ($albums as $album){
@@ -40,7 +41,8 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
-                'mySongs' => $songs
+                'mySongs' => $songs,
+                'news' => $news,
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

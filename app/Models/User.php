@@ -87,4 +87,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Artist::class, 'artist_sales', 'user_id', 'artist_id');
     }
 
+    public function news()
+    {
+        return $this->belongsToMany(News::class, 'news_users', 'user_id', 'news_id')
+            ->withPivot(['read']);
+    }
+
+    public function newsNotRead()
+    {
+        return $this->belongsToMany(News::class, 'news_users', 'user_id', 'news_id')
+            ->withPivot(['read'])->where('read', 0);
+    }
+
 }

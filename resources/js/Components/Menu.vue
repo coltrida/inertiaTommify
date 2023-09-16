@@ -16,11 +16,29 @@
             <div class="d-none d-sm-flex">
                 <div v-if="$page.props.auth.user">
 
-                    <v-btn class="text-none" stacked>
-                        <v-badge content="2" color="error">
-                            <v-icon>mdi-bell-outline</v-icon>
-                        </v-badge>
-                    </v-btn>
+<!--                    {{$page.props.auth.news[0].message}}-->
+
+
+                    <v-menu v-if="$page.props.auth.news.length > 0">
+                        <template v-slot:activator="{ props }">
+                            <v-btn
+                                class="text-none" stacked
+                                color="white"
+                                v-bind="props"
+                            >
+                                <v-badge  :content="$page.props.auth.news.length" color="error">
+                                    <v-icon>mdi-bell-outline</v-icon>
+                                </v-badge>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item v-for="notizia in $page.props.auth.news /*$page.props.auth.news*/">
+                                <v-btn block variant='text'>
+                                    {{notizia.message}}
+                                </v-btn>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
 
                     <span v-if="$page.props.auth.user.role === 'admin'">
                         <Link :href="route('admin.home')">
@@ -92,6 +110,10 @@
                                 v-bind="props"
                             >
                                 {{ $page.props.auth.user.name }}
+                                <v-icon
+                                    end
+                                    icon="mdi-arrow-down"
+                                ></v-icon>
                             </v-btn>
                         </template>
                         <v-list>
@@ -124,10 +146,21 @@
 </template>
 
 <script setup>
-import {Link} from '@inertiajs/vue3';
-import {ref} from "vue";
+import {Link, router, usePage} from '@inertiajs/vue3';
+import {ref, onMounted, computed} from "vue";
+const page = usePage()
 
 let playShuffleBool = ref(false);
+
+onMounted(() => {
+    console.log(page.props.auth.news)
+    Echo.channel('createAlbumChannel')
+        .listen('createAlbumEvent', (ele) => {
+            page.props.auth.news.unshift(ele.news)
+            console.log(ele)
+      //      router.reload({ only: ['users'] })
+        })
+})
 
 let playShuffleBtn = () => {
     let detail = {

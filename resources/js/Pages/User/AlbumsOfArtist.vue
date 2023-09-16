@@ -1,12 +1,7 @@
 <template>
     <Head title="Albums of Artist" />
     <div class="d-flex justify-space-between">
-        <div class="text-h3">Albums of {{artistConAlbums.user.name}}  artists</div>
-        <Link :href="route('user.allArtists')">
-            <v-btn color="#FFB74D">
-                Back
-            </v-btn>
-        </Link>
+        <div class="text-h3">Albums of {{artistConAlbums.user.name}}  artist</div>
     </div>
 
     <v-carousel
@@ -22,7 +17,7 @@
             <div class="text-h4 text-center my-2">
                 {{ album.name }}
 
-                <Link :href="route('user.albumsOfArtist', album.id)">
+                <Link :href="route('user.songsOfAlbum', album.id)">
                         <span class="pl-2">
                         <v-btn density="compact" icon="mdi-music" size="x-large" color="primary"></v-btn>
                         </span>

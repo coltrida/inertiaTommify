@@ -50,6 +50,7 @@
             <v-text-field v-model="search" label="Find"></v-text-field>
         </div>
     </div>
+
     <v-table theme="dark">
         <thead>
         <tr style="background: #9ca3af;">
@@ -139,7 +140,7 @@ watch(search, value => {
 })
 
 let insertAlbum = () => {
-    form.post('myAlbums/create', {
+    form.post('/artist/myAlbums/create', {
         onSuccess: () => {
             form.reset();
             insertOk.value = true;
