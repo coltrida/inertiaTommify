@@ -24,4 +24,11 @@ class UserController extends Controller
             'filters' => \Illuminate\Support\Facades\Request::only('search')
         ]);
     }
+
+    public function albumsOfArtist($idArtist, ArtistService $artistService)
+    {
+        return Inertia::render('User/AlbumsOfArtist', [
+            'artistConAlbums' => $artistService->artistConAlbums($idArtist)
+        ]);
+    }
 }

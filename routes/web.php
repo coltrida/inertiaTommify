@@ -27,6 +27,7 @@ Route::get('/', [FrontController::class, 'index'])->name('home');
 //-------------------User----------------------------
 Route::get('/user/myArtists', [UserController::class, 'myArtists'])->name('user.myArtists');
 Route::get('/user/allArtists', [UserController::class, 'allArtists'])->name('user.allArtists');
+Route::get('/user/allArtists/albums/{idArtist}', [UserController::class, 'albumsOfArtist'])->name('user.albumsOfArtist');
 
 
 Route::get('/dashboard', function () {

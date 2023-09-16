@@ -126,4 +126,10 @@ class ArtistService
             ->latest()
             ->get();
     }
+
+    public function artistConAlbums($idArtist)
+    {
+        return Artist::with('albums', 'user')
+            ->find($idArtist);
+    }
 }
