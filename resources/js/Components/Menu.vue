@@ -58,6 +58,33 @@
                         </Link>
                     </span>
 
+                    <span v-if="$page.props.auth.user.role === 'user'">
+                        <v-btn v-if="playShuffleBool" style="background: #9ca3af; color: #1a202c"
+                               class="text-none" stacked @click="stopShuffleBtn">
+                            <v-icon >mdi-shuffle</v-icon>
+                        </v-btn>
+                        <v-btn v-else class="text-none" stacked @click="playShuffleBtn">
+                            <v-icon >mdi-shuffle</v-icon>
+                        </v-btn>
+
+
+                        <Link :href="route('home')">
+                            <v-btn :variant="$page.component === 'Home' ? 'tonal' : 'text'">
+                                Home
+                            </v-btn>
+                        </Link>
+                        <Link :href="route('user.myArtists')">
+                            <v-btn :variant="$page.component === 'User/MyArtists' ? 'tonal' : 'text'">
+                                My Artists
+                            </v-btn>
+                        </Link>
+                        <Link :href="route('user.allArtists')">
+                            <v-btn :variant="$page.component === 'User/AllArtists' ? 'tonal' : 'text'">
+                                All Artists
+                            </v-btn>
+                        </Link>
+                    </span>
+
                     <v-menu>
                         <template v-slot:activator="{ props }">
                             <v-btn
@@ -98,6 +125,31 @@
 
 <script setup>
 import {Link} from '@inertiajs/vue3';
+import {ref} from "vue";
+
+let playShuffleBool = ref(false);
+
+let playShuffleBtn = () => {
+    let detail = {
+        'songs': 'all',
+        'shuffle': true
+    }
+    let event = new CustomEvent('inertia:playShuffle', {'detail': detail});
+    document.dispatchEvent(event);
+
+    playShuffleBool.value = !playShuffleBool.value;
+}
+
+let stopShuffleBtn = () => {
+    let detail = {
+        'songs': 'all',
+        'shuffle': false
+    }
+    let event = new CustomEvent('inertia:stopShuffle', {'detail': detail});
+    document.dispatchEvent(event);
+
+    playShuffleBool.value = !playShuffleBool.value;
+}
 
 </script>
 

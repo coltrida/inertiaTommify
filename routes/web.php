@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -23,6 +24,9 @@ Route::get('/', [FrontController::class, 'index'])->name('home');
     Route::get('artist/myAlbums/addSongs/{idAlbum}', [ArtistController::class, 'addSongs'])->name('artist.myAlbums.addSongs');
     Route::post('artist/myAlbums/addSongs', [ArtistController::class, 'storeSong'])->name('artist.myAlbums.storeSongs');
 
+//-------------------User----------------------------
+Route::get('/user/myArtists', [UserController::class, 'myArtists'])->name('user.myArtists');
+Route::get('/user/allArtists', [UserController::class, 'allArtists'])->name('user.allArtists');
 
 
 Route::get('/dashboard', function () {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -30,10 +31,16 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $albums = User::find($request->user()->id)->albumSales;
+        $songs = [];
+        foreach ($albums as $album){
+            array_push($songs, ...$album->songs);
+        }
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'mySongs' => $songs
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

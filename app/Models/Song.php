@@ -9,6 +9,12 @@ class Song extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = ['alb'];
+
+    public function getAlbAttribute()
+    {
+        return $this->album;
+    }
 
     public function album()
     {
