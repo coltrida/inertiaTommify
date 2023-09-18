@@ -94,4 +94,13 @@ class UserService
             }])
             ->find(Auth::id());
     }
+
+    public function segnaLettoNotizie($idUser)
+    {
+
+        //dd(User::find($idUser)->newsNotRead );
+        User::find($idUser)->newsNotRead()->syncWithPivotValues(
+            [Auth::id()], ['read' => 1]
+        );
+    }
 }

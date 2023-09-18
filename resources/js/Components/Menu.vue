@@ -32,10 +32,15 @@
                             </v-btn>
                         </template>
                         <v-list>
-                            <v-list-item v-for="notizia in $page.props.auth.news /*$page.props.auth.news*/">
-                                <v-btn block variant='text'>
-                                    {{notizia.message}}
+                            <v-list-item>
+                                <v-btn block variant='text' @click="readConfirm">
+                                    read All
                                 </v-btn>
+                            </v-list-item>
+                            <v-list-item v-for="notizia in $page.props.auth.news /*$page.props.auth.news*/">
+
+                                    {{notizia.message}}
+
                             </v-list-item>
                         </v-list>
                     </v-menu>
@@ -146,19 +151,21 @@
 </template>
 
 <script setup>
-import {Link, router, usePage} from '@inertiajs/vue3';
-import {ref, onMounted, computed} from "vue";
+import {Link, useForm, usePage} from '@inertiajs/vue3';
+import {ref, onMounted} from "vue";
 const page = usePage()
 
 let playShuffleBool = ref(false);
 
+let form = useForm({
+
+});
+
 onMounted(() => {
-    console.log(page.props.auth.news)
+  //  console.log(page.props.auth.news)
     Echo.channel('createAlbumChannel')
         .listen('createAlbumEvent', (ele) => {
             page.props.auth.news.unshift(ele.news)
-            console.log(ele)
-      //      router.reload({ only: ['users'] })
         })
 })
 
@@ -182,6 +189,14 @@ let stopShuffleBtn = () => {
     document.dispatchEvent(event);
 
     playShuffleBool.value = !playShuffleBool.value;
+}
+
+let readConfirm = () => {
+    form.post('/user/readNews', {
+        onSuccess: () => {
+
+        }
+    });
 }
 
 </script>

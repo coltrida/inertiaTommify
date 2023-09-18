@@ -48,6 +48,7 @@ Route::group(
         Route::get('/allArtists', [UserController::class, 'allArtists'])->name('user.allArtists');
         Route::get('/allArtists/albums/{idArtist}', [UserController::class, 'albumsOfArtist'])->name('user.albumsOfArtist');
         Route::get('/allArtists/albums/songs/{idAlbum}', [UserController::class, 'songsOfAlbum'])->name('user.songsOfAlbum');
+        Route::post('/readNews', [UserController::class, 'readNews'])->name('user.readNews');
 });
 
 Route::get('/dashboard', function () {

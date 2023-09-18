@@ -11,6 +11,7 @@
                             label
                         >
                             <v-icon start icon="mdi-account-circle-outline"></v-icon>
+                            <span style="display: none">{{count}} -</span>
                                 {{songInPlay.name}} - {{songInPlay.alb.name}}
                         </v-chip>
 
@@ -35,7 +36,7 @@
 
 <script setup>
 import Menu from "@/Components/Menu.vue";
-import {ref} from "vue";
+import {ref } from "vue";
 import {router} from "@inertiajs/vue3";
 import { usePage } from '@inertiajs/vue3'
 
@@ -49,6 +50,7 @@ let shufflePlayBool = ref(false);
 let numberOfSongs = ref();
 let listOfSongs = ref([]);
 let songInPlay = ref();
+let count = ref(1)
 
 router.on('playShuffle', (e) => {
 /*    console.log(e.detail)
@@ -69,8 +71,8 @@ router.on('playShuffle', (e) => {
 
 let canzoneCasuale = () => {
     let randomIndex = Math.floor(Math.random() * numberOfSongs.value)
- //   console.log(randomIndex)
     songInPlay = listOfSongs[randomIndex];
+    count.value++;
     playAudio.src = "/storage/songs/"+songInPlay.id+".mp3";
     playAudio.play();
 }
@@ -83,11 +85,9 @@ let canzoneSuccessiva = () => {
         indexSong = 0;
     }
     songInPlay = listOfSongs[indexSong];
-    console.log(songInPlay)
+    count.value++;
     playAudio.src = "/storage/songs/"+songInPlay.id+".mp3";
     playAudio.play();
-/*    playAudio.src = "/storage/songs/"+randomIdSong+".mp3";
-    playAudio.play();*/
 }
 
 router.on('stopShuffle', (e) => {

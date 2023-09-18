@@ -6,8 +6,8 @@ use App\Services\AlbumService;
 use App\Services\ArtistService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use function Termwind\render;
 
 class UserController extends Controller
 {
@@ -39,5 +39,10 @@ class UserController extends Controller
         return Inertia::render('User/SongsOfAlbum', [
             'albumConSongs' => $albumService->albumConSongs($idAlbum)
         ]);
+    }
+
+    public function readNews(UserService $userService)
+    {
+        $userService->segnaLettoNotizie(Auth::id());
     }
 }
