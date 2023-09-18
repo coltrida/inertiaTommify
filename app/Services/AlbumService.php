@@ -59,7 +59,7 @@ class AlbumService
         /*dd(Album::select('id','name')->with(['songs' => function($s){
             $s->latest()->select('id', 'album_id', 'name');
         }])->find($idAlbum));*/
-        return Album::select('id','name')->with(['songs' => function($s){
+        return Album::select('id','name')->with(['userSales','songs' => function($s){
             $s->latest()->select('id', 'album_id', 'name');
         }])->find($idAlbum);
     }

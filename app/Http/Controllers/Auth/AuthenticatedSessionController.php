@@ -38,6 +38,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('admin.home');
         }elseif(Auth::user()->role==='artist'){
             return redirect()->route('artist.home');
+        }elseif(Auth::user()->role==='user'){
+            return redirect()->route('user.home');
         }
 
         return redirect()->intended(RouteServiceProvider::HOME);

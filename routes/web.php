@@ -44,6 +44,7 @@ Route::group(
         'prefix' => 'user'
     ],
     function() {
+        Route::get('/home', [UserController::class, 'home'])->name('user.home');
         Route::get('/myArtists', [UserController::class, 'myArtists'])->name('user.myArtists');
         Route::get('/allArtists', [UserController::class, 'allArtists'])->name('user.allArtists');
         Route::get('/allArtists/albums/{idArtist}', [UserController::class, 'albumsOfArtist'])->name('user.albumsOfArtist');

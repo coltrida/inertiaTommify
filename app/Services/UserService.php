@@ -64,35 +64,32 @@ class UserService
         return User::utenti()->count();
     }
 
-    public function userConMyArtists()
+    public function myArtistsPaginate()
     {
-        /*dd(
-            User::with(['artistSales' => function($a){
-                $a->with(['user' => function($u){
-                    $u->when(Request::input('search'), function ($query, $search){
-                        $query->where('name', 'like', "%{$search}%");
-                    });
-                }]);
-            }])->find(Auth::id())
-            );*/
+        return User::with('artistSales')
+            ->find(Auth::id())
+            ->artistSales()
+            ->when(Request::input('searchArtist'), function ($query, $searchArtist){
+                $query->whereHas('user', function ($u) use ($searchArtist){
+                    $u->where('name', 'like', "%{$searchArtist}%");
+                });
+            })
+            ->paginate(5)
+            ->withQueryString()
+            ->through(fn($artist) => [
+                'id' => $artist->id,
+                'name' => $artist->user->name,
+            ]);
+    }
 
-        /*return User::with(['artistSales' => function($a){
-                $a->with(['user' => function($u){
-                    $u->when(Request::input('search'), function ($query, $search){
-                        $query->where('name', 'like', "%{$search}%");
-                    });
-                }]);
-            }])
-            ->find(Auth::id());*/
-
-        return User::with(['artistSales' => function($a){
-            $a->with('user')->when(Request::input('search'), function ($query, $search){
-                    $query->whereHas('user', function ($u) use ($search){
-                        $u->where('name', 'like', "%{$search}%");
-                    });
+    public function userConMyAlbums()
+    {
+        return User::with(['albumSales' => function($a){
+            $a->when(Request::input('searchAlbum'), function ($query, $searchAlbum){
+                    $query->where('name', 'like', "%{$searchAlbum}%");
                 });
             }])
-            ->find(Auth::id());
+        ->find(Auth::id());
     }
 
     public function segnaLettoNotizie($idUser)

@@ -16,7 +16,7 @@
                 :key="song.id"
                 :title="song.name"
             >
-                <template v-slot:prepend>
+                <template v-slot:prepend v-if="albumComprato">
                     <v-icon v-if="idSongInPlay == song.id" icon="mdi-stop" @click="stopSong"></v-icon>
                     <v-icon v-else icon="mdi-play" @click="playSong(song.id)"></v-icon>
                 </template>
@@ -30,7 +30,8 @@ import {Link} from '@inertiajs/vue3';
 import {ref} from "vue";
 
 defineProps({
-    'albumConSongs' : Object
+    'albumConSongs' : Object,
+    'albumComprato' : Boolean,
 })
 
 let idSongInPlay = ref(0);

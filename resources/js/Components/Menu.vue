@@ -91,7 +91,7 @@
                         </v-btn>
 
 
-                        <Link :href="route('home')">
+                        <Link :href="route('user.home')">
                             <v-btn :variant="$page.component === 'Home' ? 'tonal' : 'text'">
                                 Home
                             </v-btn>

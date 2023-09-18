@@ -11,6 +11,15 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
+    public function home(UserService $userService)
+    {
+        return Inertia::render('User/Home', [
+            'myArtistsPaginate' => $userService->myArtistsPaginate(),
+            'userConMyAlbums' => $userService->userConMyAlbums(),
+            'filters' => \Illuminate\Support\Facades\Request::only(['searchArtist', 'searchAlbum'])
+        ]);
+    }
+
     public function myArtists(UserService $userService)
     {
         return Inertia::render('User/MyArtists', [
@@ -36,8 +45,12 @@ class UserController extends Controller
 
     public function songsOfAlbum($idAlbum, AlbumService $albumService)
     {
+        $albumConSongs = $albumService->albumConSongs($idAlbum);
+        $albumComprato = $albumConSongs->userSales->contains('id', Auth::id());
+
         return Inertia::render('User/SongsOfAlbum', [
-            'albumConSongs' => $albumService->albumConSongs($idAlbum)
+            'albumConSongs' => $albumConSongs,
+            'albumComprato' => $albumComprato
         ]);
     }
 

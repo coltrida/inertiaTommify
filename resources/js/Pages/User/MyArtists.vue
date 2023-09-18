@@ -26,6 +26,11 @@
                     <div class="text-h4">
                         {{ artist.user.name }}
                     </div>
+                    <Link :href="route('user.albumsOfArtist', artist.id)">
+                        <span class="pl-2">
+                        <v-btn density="compact" icon="mdi-album" size="x-large" color="blackj"></v-btn>
+                    </span>
+                    </Link>
                 </div>
             </v-img>
         </v-carousel-item>
