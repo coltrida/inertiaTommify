@@ -16,7 +16,7 @@
                             {{ songInPlay.name }} - {{ songInPlay.alb.name }}
                         </v-chip>
 
-                        <v-btn class="text-none" stacked>
+                        <v-btn class="text-none" stacked @click="prevSong">
                             <v-icon>mdi-rewind</v-icon>
                         </v-btn>
                         <v-btn v-if="playMusicBool" class="text-none" stacked style="margin: 0 10px" @click="pauseSong">
@@ -62,19 +62,43 @@ let songInPlay = ref();
 let count = ref(1)
 
 router.on('playShuffle', (e) => {
-    /*    console.log(e.detail)
-        console.log(page.props.auth.mySongs.length)*/
-    listOfSongs = page.props.auth.mySongs;
+/*        console.log(e.detail.songs)*/
+        // console.log(page.props.auth.mySongs.length)
+    if (e.detail.songs === 'all'){
+        listOfSongs = page.props.auth.mySongs;
+/*        console.log(listOfSongs)*/
+    } else if(e.detail.songs === 'album'){
+        listOfSongs = e.detail.album.songs;
+/*        console.log(listOfSongs)
+        console.log(e.detail.shuffle)*/
+    }
+
 
     if (!playMusicBool.value) {
         playMusicBool.value = true;
-        shufflePlayBool.value = true;
+        shufflePlayBool.value = e.detail.shuffle;
         visiblePlay.value = true
         numberOfSongs.value = page.props.auth.mySongs.length;
-        canzoneCasuale();
-        playAudio.addEventListener('ended', function () {
+        if (shufflePlayBool.value){
             canzoneCasuale();
-        });
+            playAudio.addEventListener('ended', function () {
+                canzoneCasuale();
+            });
+        } else {
+            canzoneSuccessiva();
+            playAudio.addEventListener('ended', function () {
+                canzoneSuccessiva();
+            });
+        }
+    } else {
+        if (e.detail.songs === 'album'){
+            playAudio.pause();
+            let indexSong = 0;
+            songInPlay = listOfSongs[indexSong];
+            count.value++;
+            playAudio.src = "/storage/songs/" + songInPlay.id + ".mp3";
+            playAudio.play();
+        }
     }
 })
 
@@ -99,6 +123,19 @@ let canzoneSuccessiva = () => {
     playAudio.play();
 }
 
+let canzonePrecedente = () => {
+    //   console.log(listOfSongs)
+    let indexSong = listOfSongs.findIndex(song => song.id == songInPlay.id);
+    indexSong--;
+    if (indexSong == -1) {
+        indexSong = listOfSongs.length - 1;
+    }
+    songInPlay = listOfSongs[indexSong];
+    count.value--;
+    playAudio.src = "/storage/songs/" + songInPlay.id + ".mp3";
+    playAudio.play();
+}
+
 router.on('stopShuffle', (e) => {
     shufflePlayBool.value = false;
 })
@@ -118,6 +155,14 @@ let nextSong = () => {
         canzoneCasuale();
     } else {
         canzoneSuccessiva();
+    }
+}
+
+let prevSong = () => {
+    if (shufflePlayBool.value) {
+        canzoneCasuale();
+    } else {
+        canzonePrecedente();
     }
 }
 

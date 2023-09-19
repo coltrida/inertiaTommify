@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         return Inertia::render('User/Home', [
             'myArtistsPaginate' => $userService->myArtistsPaginate(),
-            'userConMyAlbums' => $userService->userConMyAlbums(),
+            'myAlbumsPaginate' => $userService->myAlbumsPaginate(),
             'filters' => \Illuminate\Support\Facades\Request::only(['searchArtist', 'searchAlbum'])
         ]);
     }

@@ -64,6 +64,37 @@ class UserService
         return User::utenti()->count();
     }
 
+    public function userConMyArtists()
+    {
+        /*dd(
+            User::with(['artistSales' => function($a){
+                $a->with(['user' => function($u){
+                    $u->when(Request::input('search'), function ($query, $search){
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+                }]);
+            }])->find(Auth::id())
+            );*/
+
+        /*return User::with(['artistSales' => function($a){
+                $a->with(['user' => function($u){
+                    $u->when(Request::input('search'), function ($query, $search){
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+                }]);
+            }])
+            ->find(Auth::id());*/
+
+        return User::with(['artistSales' => function($a){
+            $a->with('user')->when(Request::input('search'), function ($query, $search){
+                $query->whereHas('user', function ($u) use ($search){
+                    $u->where('name', 'like', "%{$search}%");
+                });
+            });
+        }])
+            ->find(Auth::id());
+    }
+
     public function myArtistsPaginate()
     {
         return User::with('artistSales')
@@ -74,7 +105,7 @@ class UserService
                     $u->where('name', 'like', "%{$searchArtist}%");
                 });
             })
-            ->paginate(5)
+            ->paginate(3, ['*'], 'artists')
             ->withQueryString()
             ->through(fn($artist) => [
                 'id' => $artist->id,
@@ -82,14 +113,31 @@ class UserService
             ]);
     }
 
-    public function userConMyAlbums()
+    public function myAlbumsPaginate()
     {
         return User::with(['albumSales' => function($a){
+            $a->with('songs');
+        }])
+            ->find(Auth::id())
+            ->albumSales()->when(Request::input('searchAlbum'), function ($query, $searchAlbum){
+                $query->where('name', 'like', "%{$searchAlbum}%");
+            })
+            ->paginate(3, ['*'], 'albums')
+            ->withQueryString()
+            ->through(fn($album) => [
+                'id' => $album->id,
+                'name' => $album->name,
+                'songs' => $album->songs,
+            ]);
+
+
+
+/*        return User::with(['albumSales' => function($a){
             $a->when(Request::input('searchAlbum'), function ($query, $searchAlbum){
                     $query->where('name', 'like', "%{$searchAlbum}%");
                 });
             }])
-        ->find(Auth::id());
+        ->find(Auth::id());*/
     }
 
     public function segnaLettoNotizie($idUser)

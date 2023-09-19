@@ -15,11 +15,12 @@
                         :title="artist.name"
                     >
                         <template v-slot:prepend>
-                            <v-icon v-if="idSongInPlay == artist.id" icon="mdi-stop" @click="stopSong"></v-icon>
-                            <v-icon v-else icon="mdi-play" @click="playSong(artist.id)"></v-icon>
+                            <v-icon v-if="idArtistInPlay == artist.id" icon="mdi-stop" @click="stopArtist"></v-icon>
+                            <v-icon v-else icon="mdi-play" @click="playArtist(artist.id)"></v-icon>
                         </template>
                     </v-list-item>
                 </v-list>
+                <div class="ml-3">
                 <component
                     v-for="link in myArtistsPaginate.links"
                     class="mx-1 p-2" style="border: black 1px solid; border-radius: 5px"
@@ -28,6 +29,7 @@
                     <Link v-if="link.url" :href="link.url" v-html="link.label" class="px-2"></Link>
                     <span v-else v-html="link.label" class="text-gray-400"></span>
                 </component >
+                </div>
             </v-sheet>
         </v-col>
 
@@ -38,19 +40,30 @@
                     <v-text-field v-model="searchAlbum" label="Find"></v-text-field>
                 </div>
             </div>
-            <v-sheet rounded elevation="3" style="margin-top: 10px">
-                <v-list lines="one">
+            <v-sheet rounded elevation="3" style="margin-top: 10px; padding-bottom: 30px">
+                <v-list lines="one" style="margin-bottom: 30px">
                     <v-list-item
-                        v-for="album in userConMyAlbums.album_sales"
+                        v-for="album in myAlbumsPaginate.data"
                         :key="album.id"
                         :title="album.name"
                     >
                         <template v-slot:prepend>
-                            <v-icon v-if="idSongInPlay == album.id" icon="mdi-stop" @click="stopSong"></v-icon>
-                            <v-icon v-else icon="mdi-play" @click="playSong(album.id)"></v-icon>
+                            <v-icon v-if="idAlbumInPlay == album.id" icon="mdi-stop" @click="stopAlbum"></v-icon>
+                            <v-icon v-else icon="mdi-play" @click="playAlbum(album)"></v-icon>
                         </template>
                     </v-list-item>
                 </v-list>
+                <div class="ml-3">
+                    <component
+                        v-for="link in myAlbumsPaginate.links"
+                        class="mx-1 p-2" style="border: black 1px solid; border-radius: 5px"
+                        :class="{'text-gray-400': !link.url, 'font-bold; bg-black': link.active}"
+                    >
+                        <Link v-if="link.url" :href="link.url" v-html="link.label" class="px-2"></Link>
+                        <span v-else v-html="link.label" class="text-gray-400"></span>
+                    </component >
+                </div>
+
             </v-sheet>
         </v-col>
     </v-row>
@@ -63,7 +76,7 @@ import {Link, router} from "@inertiajs/vue3";
 
 let props = defineProps({
     'myArtistsPaginate': Object,
-    'userConMyAlbums': Object,
+    'myAlbumsPaginate': Object,
     filters: Object
 });
 
@@ -84,13 +97,33 @@ watch(searchAlbum, value => {
     })
 })
 
-let idSongInPlay = ref(0);
+let idArtistInPlay = ref(0);
+let idAlbumInPlay = ref(0);
+let playShuffleBool = ref(false);
 
-let playSong = (idSong) => {
+let playArtist = (idArtist) => {
 
 }
 
-let stopSong = () => {
+let stopArtist = () => {
+
+}
+
+let playAlbum = (album) => {
+    let detail = {
+        'songs': 'album',
+        'shuffle': false,
+        'album': album
+    }
+    idAlbumInPlay.value = album.id;
+    idArtistInPlay.value = 0;
+    let event = new CustomEvent('inertia:playShuffle', {'detail': detail});
+    document.dispatchEvent(event);
+
+    playShuffleBool.value = !playShuffleBool.value;
+}
+
+let stopAlbum = () => {
 
 }
 
