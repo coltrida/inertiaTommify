@@ -97,7 +97,9 @@ class UserService
 
     public function myArtistsPaginate()
     {
-        return User::with('artistSales')
+        return User::with(['artistSales' => function($a){
+            $a->with('albums');
+        }])
             ->find(Auth::id())
             ->artistSales()
             ->when(Request::input('searchArtist'), function ($query, $searchArtist){
@@ -110,6 +112,7 @@ class UserService
             ->through(fn($artist) => [
                 'id' => $artist->id,
                 'name' => $artist->user->name,
+                'albums' => $artist->albums,
             ]);
     }
 

@@ -17,7 +17,7 @@ class ArtistSalesSeeder extends Seeder
         $users = User::with('artistSales')->utenti()->get();
         $artistIds = Artist::count() - 1;
         foreach ($users as $user){
-            $user->artistSales()->sync([rand(1, $artistIds), rand(1, $artistIds), rand(1, $artistIds), 7, 8, 9]);
+            $user->artistSales()->sync([rand(2, $artistIds), rand(2, $artistIds), rand(2, $artistIds), 1, 8, 9]);
         }
     }
 }

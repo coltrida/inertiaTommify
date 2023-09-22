@@ -31,7 +31,7 @@ class UserController extends Controller
     public function allArtists(ArtistService $artistService)
     {
         return Inertia::render('User/AllArtists', [
-            'allArtists' => $artistService->allArtists(),
+            'allArtists' => $artistService->allArtistsPaginate(),
             'filters' => \Illuminate\Support\Facades\Request::only('search')
         ]);
     }

@@ -7,7 +7,7 @@
                     <v-text-field v-model="searchArtist" label="Find"></v-text-field>
                 </div>
             </div>
-            <v-sheet rounded elevation="3" style="margin-top: 10px; padding-bottom: 30px">
+            <v-sheet rounded="lg" elevation="3" style="margin-top: 10px; padding-bottom: 30px; height: 240px; position: relative">
                 <v-list lines="one" style="margin-bottom: 30px">
                     <v-list-item
                         v-for="artist in myArtistsPaginate.data"
@@ -18,15 +18,22 @@
                             <v-icon v-if="idArtistInPlay == artist.id" icon="mdi-stop" @click="stopArtist"></v-icon>
                             <v-icon v-else icon="mdi-play" @click="playArtist(artist.id)"></v-icon>
                         </template>
+                        <template v-slot:append>
+                            <Link :href="route('user.albumsOfArtist', artist.id)">
+                                <v-btn @click="stopAlbum" size="small" color="primary" title="albums">
+                                    {{artist.albums.length}}<v-icon style="margin-left: 10px;" icon="mdi-music-box-multiple-outline" ></v-icon>
+                                </v-btn>
+                            </Link>
+                        </template>
                     </v-list-item>
                 </v-list>
-                <div class="ml-3">
+                <div class="ml-3" style="position: absolute; bottom: 20px">
                 <component
                     v-for="link in myArtistsPaginate.links"
                     class="mx-1 p-2" style="border: black 1px solid; border-radius: 5px"
                     :class="{'text-gray-400': !link.url, 'font-bold; bg-black': link.active}"
                 >
-                    <Link v-if="link.url" :href="link.url" v-html="link.label" class="px-2"></Link>
+                    <Link preserve-scroll v-if="link.url" :href="link.url" v-html="link.label" class="px-2"></Link>
                     <span v-else v-html="link.label" class="text-gray-400"></span>
                 </component >
                 </div>
@@ -40,7 +47,7 @@
                     <v-text-field v-model="searchAlbum" label="Find"></v-text-field>
                 </div>
             </div>
-            <v-sheet rounded elevation="3" style="margin-top: 10px; padding-bottom: 30px">
+            <v-sheet  rounded="lg" elevation="3" style="margin-top: 10px; padding-bottom: 30px; height: 240px; position: relative">
                 <v-list lines="one" style="margin-bottom: 30px">
                     <v-list-item
                         v-for="album in myAlbumsPaginate.data"
@@ -51,15 +58,20 @@
                             <v-icon v-if="idAlbumInPlay == album.id" icon="mdi-stop" @click="stopAlbum"></v-icon>
                             <v-icon v-else icon="mdi-play" @click="playAlbum(album)"></v-icon>
                         </template>
+                        <template v-slot:append>
+                            <v-btn @click="stopAlbum" size="small" color="primary" title="songs">
+                                {{album.songs.length}}<v-icon style="margin-left: 10px;" icon="mdi-music" ></v-icon>
+                            </v-btn>
+                        </template>
                     </v-list-item>
                 </v-list>
-                <div class="ml-3">
+                <div class="ml-3" style="position: absolute; bottom: 20px">
                     <component
                         v-for="link in myAlbumsPaginate.links"
                         class="mx-1 p-2" style="border: black 1px solid; border-radius: 5px"
                         :class="{'text-gray-400': !link.url, 'font-bold; bg-black': link.active}"
                     >
-                        <Link v-if="link.url" :href="link.url" v-html="link.label" class="px-2"></Link>
+                        <Link preserve-scroll v-if="link.url" :href="link.url" v-html="link.label" class="px-2"></Link>
                         <span v-else v-html="link.label" class="text-gray-400"></span>
                     </component >
                 </div>
@@ -117,7 +129,7 @@ let playAlbum = (album) => {
     }
     idAlbumInPlay.value = album.id;
     idArtistInPlay.value = 0;
-    let event = new CustomEvent('inertia:playShuffle', {'detail': detail});
+    let event = new CustomEvent('inertia:playAlbum', {'detail': detail});
     document.dispatchEvent(event);
 
     playShuffleBool.value = !playShuffleBool.value;

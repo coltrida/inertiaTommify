@@ -39,10 +39,9 @@
             </v-sheet>
         </div>
     <span style="display: none">{{ count }} -</span>
-<!--    {{listOfSongs}}
+    {{listOfSongs}}
         NumeroCanzoni:{{listOfSongs.length}}
         index:{{indexSong}}
-        shuffle:{{shufflePlayBool}}-->
     </v-container>
 </template>
 
@@ -67,40 +66,47 @@ let songInPlay = ref();
 let count = ref(1)
 
 router.on('playShuffle', (e) => {
-    shufflePlayBool.value = e.detail.shuffle;
+    if (!playMusicBool.value) {
+/*        console.log(e.detail.songs)*/
+        // console.log(page.props.auth.mySongs.length)
+        if (e.detail.songs === 'all'){
+            listOfSongs = page.props.auth.mySongs;
+    /*        console.log(listOfSongs)*/
+        } else if(e.detail.songs === 'album'){
+            listOfSongs = e.detail.album.songs;
+    /*        console.log(listOfSongs)
+            console.log(e.detail.shuffle)*/
+        }
+    }
 
-    // se non sta suonando musica
+
     if (!playMusicBool.value) {
         playMusicBool.value = true;
-        visiblePlay.value = true;
-        caricaListaCanoni(page.props.auth.mySongs);
-        suonaListaCanzoni();
+        shufflePlayBool.value = e.detail.shuffle;
+        visiblePlay.value = true
+        numberOfSongs.value = page.props.auth.mySongs.length;
+        if (shufflePlayBool.value){
+            canzoneCasuale();
+            playAudio.addEventListener('ended', function () {
+                canzoneCasuale();
+            });
+        } else {
+            canzoneSuccessiva();
+            playAudio.addEventListener('ended', function () {
+                canzoneSuccessiva();
+            });
+        }
+    } else {
+        if (e.detail.songs === 'album'){
+            playAudio.pause();
+            indexSong = 0;
+            songInPlay = listOfSongs[indexSong];
+            count.value++;
+            playAudio.src = "/storage/songs/" + songInPlay.id + ".mp3";
+            playAudio.play();
+        }
     }
 })
-
-let caricaListaCanoni = (listaCanzoni) => {
-    listOfSongs = listaCanzoni;
-    numberOfSongs.value = listaCanzoni.length;
-}
-
-let suonaListaCanzoni = () => {
-    // switch playMusicBool = vero
-    playMusicBool.value = true;
-
-    // Se shuffle suona canzone casuale
-    if (shufflePlayBool.value){
-        canzoneCasuale();
-        playAudio.addEventListener('ended', function () {
-            canzoneCasuale();
-        });
-    } else {
-        // se non shuffle suona canzone successiva
-        canzoneSuccessiva();
-        playAudio.addEventListener('ended', function () {
-            canzoneSuccessiva();
-        });
-    }
-}
 
 let canzoneCasuale = () => {
     indexSong = Math.floor(Math.random() * numberOfSongs.value)
@@ -111,6 +117,7 @@ let canzoneCasuale = () => {
 }
 
 let canzoneSuccessiva = () => {
+    //   console.log(listOfSongs)
     indexSong = listOfSongs.findIndex(song => song.id == songInPlay.id);
     indexSong++;
     if (indexSong > listOfSongs.length - 1) {
@@ -123,6 +130,7 @@ let canzoneSuccessiva = () => {
 }
 
 let canzonePrecedente = () => {
+    //   console.log(listOfSongs)
     indexSong = listOfSongs.findIndex(song => song.id == songInPlay.id);
     indexSong--;
     if (indexSong == -1) {
@@ -136,14 +144,6 @@ let canzonePrecedente = () => {
 
 router.on('stopShuffle', (e) => {
     shufflePlayBool.value = false;
-})
-
-router.on('playAlbum', (e) => {
-    indexSong = 0;
-    shufflePlayBool.value = e.detail.shuffle;
-    visiblePlay.value = true;
-    caricaListaCanoni(e.detail.album.songs);
-    suonaListaCanzoni();
 })
 
 let pauseSong = () => {

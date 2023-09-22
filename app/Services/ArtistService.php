@@ -127,6 +127,23 @@ class ArtistService
             ->get();
     }
 
+    public function allArtistsPaginate()
+    {
+        return Artist::with('user')
+            ->when(Request::input('search'), function ($query, $search){
+                $query->whereHas('user', function ($u) use ($search){
+                    $u->where('name', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->paginate(5)
+            ->withQueryString()
+            ->through(fn($artist) => [
+                'id' => $artist->id,
+                'name' => $artist->user->name,
+            ]);
+    }
+
     public function artistConAlbums($idArtist)
     {
         return Artist::with('albums', 'user')
