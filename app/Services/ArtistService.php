@@ -129,7 +129,7 @@ class ArtistService
 
     public function allArtistsPaginate()
     {
-        return Artist::with('user')
+        return Artist::with('user', 'userSales:id')
             ->when(Request::input('search'), function ($query, $search){
                 $query->whereHas('user', function ($u) use ($search){
                     $u->where('name', 'like', "%{$search}%");
@@ -141,12 +141,20 @@ class ArtistService
             ->through(fn($artist) => [
                 'id' => $artist->id,
                 'name' => $artist->user->name,
+                'userSales' => $artist->userSales()->get()->pluck('id')->toArray(),
             ]);
     }
 
     public function artistConAlbums($idArtist)
     {
-        return Artist::with('albums', 'user')
+        /*dd(Artist::with(['user', 'albums' => function($a){
+            $a->with('userSales');
+        }])
+            ->find($idArtist));*/
+
+        return Artist::with(['user', 'albums' => function($a){
+            $a->with('userSales');
+        }])
             ->find($idArtist);
     }
 }

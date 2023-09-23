@@ -7,13 +7,15 @@
         </div>
     </div>
 
-    <v-table theme="dark">
+    <v-table theme="dark" style="border-collapse:separate;
+                    border:solid black 1px;
+                    border-radius:6px;">
         <thead>
         <tr style="background: #9ca3af;">
-            <th class="text-left text-black" style="width: 400px">
+            <th class="text-left text-black" style="width: 70%">
                 Name
             </th>
-            <th class="text-center text-black">
+            <th class="text-black">
                 Actions
             </th>
         </tr>
@@ -24,15 +26,15 @@
             :key="item.id"
         >
             <td>{{ item.name }}</td>
-            <td class="text-center">
-                <v-btn color="primary mx-2" title="play">
-                    <v-icon icon="mdi-play"></v-icon>
-                </v-btn>
+            <td class="">
                 <Link :href="route('user.albumsOfArtist', item.id)">
                     <v-btn color="primary" title="albums">
                         <v-icon icon="mdi-music-box-multiple-outline"></v-icon>
                     </v-btn>
                 </Link>
+                <v-btn color="success mx-2" v-if="!item.userSales.includes($page.props.auth.user.id)">
+                    <v-icon icon="mdi-cash"></v-icon>
+                </v-btn>
             </td>
         </tr>
         <tr>
