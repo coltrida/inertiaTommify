@@ -80,6 +80,13 @@
         </v-col>
     </v-row>
 
+    <Link :href="route('user.paypal')">
+        <v-btn class="mt-3">
+            paypall
+        </v-btn>
+    </Link>
+
+
 </template>
 
 <script setup>
