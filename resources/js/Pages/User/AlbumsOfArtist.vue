@@ -24,7 +24,7 @@
         >
             <td>{{ item.name }}</td>
             <td class="">
-                <Link >
+                <Link :href="route('user.songsOfAlbum', item.id)">
                     <v-btn color="primary" title="songs">
                         <v-icon icon="mdi-music"></v-icon>
                     </v-btn>

@@ -19,6 +19,7 @@ class UserController extends Controller
         return Inertia::render('User/Home', [
             'myArtistsPaginate' => $userService->myArtistsPaginate(),
             'myAlbumsPaginate' => $userService->myAlbumsPaginate(),
+            'myLastAlbumsListen' => $userService->myLastAlbumsListen(),
             'filters' => \Illuminate\Support\Facades\Request::only(['searchArtist', 'searchAlbum'])
         ]);
     }
@@ -119,5 +120,10 @@ class UserController extends Controller
     public function cancelPaypal()
     {
         return "Payment is Cancelled";
+    }
+
+    public function playMyAlbum(Request $request, AlbumService $albumService)
+    {
+        $albumService->aggiornaAscoltaAlbum($request);
     }
 }

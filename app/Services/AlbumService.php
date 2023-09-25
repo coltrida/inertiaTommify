@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Models\Album;
 use App\Models\Song;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class AlbumService
@@ -72,5 +75,10 @@ class AlbumService
     public function countOfAlbums()
     {
         return Album::count();
+    }
+
+    public function aggiornaAscoltaAlbum($request)
+    {
+        User::find(Auth::id())->albumSales()->updateExistingPivot($request->albumId, ['updated_at' => Carbon::now()]);
     }
 }

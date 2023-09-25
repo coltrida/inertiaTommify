@@ -51,6 +51,8 @@ Route::group(
         Route::get('/allArtists/albums/songs/{idAlbum}', [UserController::class, 'songsOfAlbum'])->name('user.songsOfAlbum');
         Route::post('/readNews', [UserController::class, 'readNews'])->name('user.readNews');
 
+        Route::post('/playMyAlbum', [UserController::class, 'playMyAlbum'])->name('user.playMyAlbum');
+
         Route::get('/paypal', [UserController::class, 'paypal'])->name('user.paypal');
         Route::get('/paypal/success', [UserController::class, 'successPaypal'])->name('user.paypal.success');
         Route::get('/paypal/cancel', [UserController::class, 'cancelPaypal'])->name('user.paypal.cancel');

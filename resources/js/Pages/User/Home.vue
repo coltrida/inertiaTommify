@@ -1,5 +1,23 @@
 <template>
     <v-row>
+        <v-col cols="12" sm="12">
+            <div class="d-flex justify-center">
+                <div class="text-h4">My Last Albums listen</div>
+            </div>
+        </v-col>
+    </v-row>
+
+    <v-row class="mb-5">
+        <v-col cols="12" sm="12">
+            <div :class="!$vuetify.display.mobile ? 'd-flex justify-space-between' : ''">
+                <v-btn width="220px" v-for="alb in myLastAlbumsListen" :key="alb.id" color="success" :block="$vuetify.display.mobile ? true : false" >
+                    {{alb.name}}
+                </v-btn>
+            </div>
+        </v-col>
+    </v-row>
+
+    <v-row>
         <v-col cols="12" sm="6">
             <div class="d-flex justify-space-between">
                 <div class="text-h4">My Artists</div>
@@ -91,12 +109,17 @@
 
 <script setup>
 import {ref, watch} from "vue";
-import {Link, router} from "@inertiajs/vue3";
+import {Link, router, useForm} from "@inertiajs/vue3";
 
 let props = defineProps({
     'myArtistsPaginate': Object,
     'myAlbumsPaginate': Object,
+    'myLastAlbumsListen': Object,
     filters: Object
+});
+
+let form = useForm({
+    albumId: '',
 });
 
 let searchArtist = ref(props.filters.searchArtist);
@@ -140,6 +163,9 @@ let playAlbum = (album) => {
     document.dispatchEvent(event);
 
     playShuffleBool.value = !playShuffleBool.value;
+
+    form.albumId = album.id;
+    form.post('/user/playMyAlbum');
 }
 
 let stopAlbum = () => {

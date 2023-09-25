@@ -151,4 +151,16 @@ class UserService
             [Auth::id()], ['read' => 1]
         );
     }
+
+    public function myLastAlbumsListen()
+    {
+        /*dd(User::with(['albumSales' => function($a){
+            $a->orderByPivot('updated_at', 'desc');
+        }])->find(Auth::id())->albumSales);*/
+
+        return User::with(['albumSales' => function($a){
+            $a->orderByPivot('updated_at', 'desc');
+        }])->find(Auth::id())->albumSales;
+    }
+
 }

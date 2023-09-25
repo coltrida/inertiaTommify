@@ -79,7 +79,8 @@ class User extends Authenticatable
 
     public function albumSales()
     {
-        return $this->belongsToMany(Album::class, 'album_sales', 'user_id', 'album_id');
+        return $this->belongsToMany(Album::class, 'album_sales', 'user_id', 'album_id')
+            ->withPivot('updated_at');
     }
 
     public function artistSales()
