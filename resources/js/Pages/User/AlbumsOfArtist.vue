@@ -9,8 +9,11 @@
                     border-radius:6px;">
         <thead>
         <tr style="background: #9ca3af;">
-            <th class="text-left text-black" style="width: 70%">
+            <th class="text-left text-black" style="width: 50%">
                 Name
+            </th>
+            <th class="text-left text-black" style="width: 30%">
+                Cover
             </th>
             <th class="text-black">
                 Actions
@@ -23,13 +26,20 @@
             :key="item.id"
         >
             <td>{{ item.name }}</td>
+            <td>
+                <v-img
+                    :width="100"
+                    cover
+                    :src="imgLink(item)"
+                ></v-img>
+            </td>
             <td class="">
                 <Link :href="route('user.songsOfAlbum', item.id)">
                     <v-btn color="primary" title="songs">
                         <v-icon icon="mdi-music"></v-icon>
                     </v-btn>
                 </Link>
-                <v-btn color="success mx-2" v-if="!item.user_sales.some(element => {
+                <v-btn @click="buyAlbum(item)" color="success mx-2" v-if="!item.user_sales.some(element => {
                     if(element.id === $page.props.auth.user.id) {
                         return true
                         }
@@ -59,46 +69,26 @@
         </tbody>
     </v-table>
 
-<!--    <v-carousel
-        cycle
-        height="400"
-        hide-delimiter-background
-        show-arrows="hover"
-    >
-        <v-carousel-item
-            v-for="(album, i) in artistConAlbums.albums"
-            :key="i"
-        >
-            <div class="text-h4 text-center my-2">
-                {{ album.name }}
-
-                <Link :href="route('user.songsOfAlbum', album.id)">
-                        <span class="pl-2">
-                        <v-btn density="compact" icon="mdi-music" size="x-large" color="primary"></v-btn>
-                        </span>
-                </Link>
-            </div>
-
-            <v-img
-                height="100%"
-                aspect-ratio="16/9"
-
-                :src="imgLink(album)"
-            >
-            </v-img>
-        </v-carousel-item>
-    </v-carousel>-->
 </template>
 
 <script setup>
-import {Link} from '@inertiajs/vue3';
+import {Link, useForm} from '@inertiajs/vue3';
 
 defineProps({
     'artistConAlbums' : Object
 })
 
+let form = useForm({
+    album: {},
+});
+
 let imgLink = (item) => {
     return '/storage/covers/' + item.id + '.jpg'
+}
+
+let buyAlbum = (album) => {
+    form.album = album;
+    form.post('/user/buyAlbum');
 }
 
 </script>

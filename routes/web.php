@@ -53,6 +53,8 @@ Route::group(
 
         Route::post('/playMyAlbum', [UserController::class, 'playMyAlbum'])->name('user.playMyAlbum');
 
+        Route::post('/buyAlbum', [UserController::class, 'buyAlbum'])->name('user.buyAlbum');
+
         Route::get('/paypal', [UserController::class, 'paypal'])->name('user.paypal');
         Route::get('/paypal/success', [UserController::class, 'successPaypal'])->name('user.paypal.success');
         Route::get('/paypal/cancel', [UserController::class, 'cancelPaypal'])->name('user.paypal.cancel');

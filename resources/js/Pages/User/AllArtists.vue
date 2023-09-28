@@ -32,9 +32,9 @@
                         <v-icon icon="mdi-music-box-multiple-outline"></v-icon>
                     </v-btn>
                 </Link>
-                <v-btn color="success mx-2" v-if="!item.userSales.includes($page.props.auth.user.id)">
+<!--                <v-btn color="success mx-2" v-if="!item.userSales.includes($page.props.auth.user.id)">
                     <v-icon icon="mdi-cash"></v-icon>
-                </v-btn>
+                </v-btn>-->
             </td>
         </tr>
         <tr>

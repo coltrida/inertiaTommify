@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AlbumBuy;
 use App\Services\AlbumService;
 use App\Services\ArtistService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Srmklive\PayPal\Services\PayPal;
@@ -125,5 +127,11 @@ class UserController extends Controller
     public function playMyAlbum(Request $request, AlbumService $albumService)
     {
         $albumService->aggiornaAscoltaAlbum($request);
+    }
+
+    public function buyAlbum(Request $request, AlbumService $albumService)
+    {
+        $albumService->buyAlbum($request);
+        Mail::to('coltrida@gmail.com')->queue(new AlbumBuy());
     }
 }

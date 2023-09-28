@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ArtistSeeder::class);
         $this->call(AlbumSeeder::class);
         $this->call(SongSeeder::class);
-        $this->call(AlbumSalesSeeder::class);
-        $this->call(ArtistSalesSeeder::class);
+    //    $this->call(AlbumSalesSeeder::class);
+    //    $this->call(ArtistSalesSeeder::class);
 
         Storage::disk('public')->deleteDirectory('covers/');
         Storage::disk('public')->deleteDirectory('songs/');

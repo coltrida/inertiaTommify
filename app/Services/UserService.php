@@ -159,7 +159,7 @@ class UserService
         }])->find(Auth::id())->albumSales);*/
 
         return User::with(['albumSales' => function($a){
-            $a->orderByPivot('updated_at', 'desc');
+            $a->orderByPivot('updated_at', 'desc')->limit(8);
         }])->find(Auth::id())->albumSales;
     }
 

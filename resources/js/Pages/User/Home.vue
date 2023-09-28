@@ -10,9 +10,14 @@
     <v-row class="mb-5">
         <v-col cols="12" sm="12">
             <div :class="!$vuetify.display.mobile ? 'd-flex justify-space-between' : ''">
-                <v-btn width="220px" v-for="alb in myLastAlbumsListen" :key="alb.id" color="success" :block="$vuetify.display.mobile ? true : false" >
-                    {{alb.name}}
-                </v-btn>
+                <Link v-for="alb in myLastAlbumsListen" :key="alb.id" :href="route('user.songsOfAlbum', alb.id)">
+                    <v-btn width="220px"
+
+                           color="success"
+                           :block="$vuetify.display.mobile ? true : false" >
+                        {{alb.name}}
+                    </v-btn>
+                </Link>
             </div>
         </v-col>
     </v-row>
@@ -77,9 +82,11 @@
                             <v-icon v-else icon="mdi-play" @click="playAlbum(album)"></v-icon>
                         </template>
                         <template v-slot:append>
-                            <v-btn @click="stopAlbum" size="small" color="primary" title="songs">
-                                {{album.songs.length}}<v-icon style="margin-left: 10px;" icon="mdi-music" ></v-icon>
-                            </v-btn>
+                           <Link :href="route('user.songsOfAlbum', album.id)">
+                               <v-btn size="small" color="primary" title="songs">
+                                   {{album.songs.length}}<v-icon style="margin-left: 10px;" icon="mdi-music" ></v-icon>
+                               </v-btn>
+                           </Link>
                         </template>
                     </v-list-item>
                 </v-list>

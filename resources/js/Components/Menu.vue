@@ -7,7 +7,27 @@
             color="blue-grey-darken-4"
             fixed
         >
-            <v-app-bar-nav-icon class="d-flex d-sm-none" @click="drawer = true"></v-app-bar-nav-icon>
+
+            <v-app-bar-nav-icon class="d-flex d-sm-none" @click="drawer = !drawer"></v-app-bar-nav-icon>
+<!--            <v-navigation-drawer
+                v-model="drawer"
+                temporary
+            >
+                <v-list-item
+                    prepend-avatar="https://randomuser.me/api/portraits/men/78.jpg"
+                    title="John Leider"
+                ></v-list-item>
+
+                <v-divider></v-divider>
+
+                <v-list density="compact" nav>
+                    <Link :href="route('user.home')">
+                        <v-list-item @click="drawer = !drawer" prepend-icon="mdi-view-dashboard" title="Home" value="home"></v-list-item>
+                    </Link>
+
+                    <v-list-item prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
+                </v-list>
+            </v-navigation-drawer>-->
 
             <v-toolbar-title>Tommify</v-toolbar-title>
 
@@ -155,6 +175,7 @@ import {Link, useForm, usePage} from '@inertiajs/vue3';
 import {ref, onMounted} from "vue";
 const page = usePage()
 
+let drawer = ref(false);
 let playShuffleBool = ref(false);
 
 let form = useForm({
