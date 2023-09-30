@@ -26,6 +26,11 @@ class UserController extends Controller
         ]);
     }
 
+    public function settings()
+    {
+        return Inertia::render('User/Settings');
+    }
+
     public function myArtists(UserService $userService)
     {
         return Inertia::render('User/MyArtists', [
@@ -132,6 +137,6 @@ class UserController extends Controller
     public function buyAlbum(Request $request, AlbumService $albumService)
     {
         $albumService->buyAlbum($request);
-        Mail::to('coltrida@gmail.com')->queue(new AlbumBuy());
+        Mail::to('coltrida@gmail.com')->queue(new AlbumBuy($request->album));
     }
 }

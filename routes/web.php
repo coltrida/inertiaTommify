@@ -35,6 +35,8 @@ Route::group(
         Route::post('/myAlbums/create', [ArtistController::class, 'storeAlbum'])->name('artist.myAlbums.create');
         Route::get('/myAlbums/addSongs/{idAlbum}', [ArtistController::class, 'addSongs'])->name('artist.myAlbums.addSongs');
         Route::post('/myAlbums/addSongs', [ArtistController::class, 'storeSong'])->name('artist.myAlbums.storeSongs');
+        Route::get('/myClients', [ArtistController::class, 'myClients'])->name('artist.myClients');
+        Route::get('/myAlbumSales', [ArtistController::class, 'myAlbumSales'])->name('artist.myAlbumSales');
 });
 
 //-------------------User----------------------------
@@ -45,6 +47,7 @@ Route::group(
     ],
     function() {
         Route::get('/home', [UserController::class, 'home'])->name('user.home');
+        Route::get('/settings', [UserController::class, 'settings'])->name('user.settings');
         Route::get('/myArtists', [UserController::class, 'myArtists'])->name('user.myArtists');
         Route::get('/allArtists', [UserController::class, 'allArtists'])->name('user.allArtists');
         Route::get('/allArtists/albums/{idArtist}', [UserController::class, 'albumsOfArtist'])->name('user.albumsOfArtist');

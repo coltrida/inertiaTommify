@@ -16,13 +16,16 @@
             <v-col>
                 <v-sheet rounded elevation="3" class="mt-2 p-3">
                     Nr. of Clients:
-                    <v-chip
-                        class="ma-2"
-                        color="primary"
-                        variant="outlined"
-                    >
-                        {{infoArtistConAlbumEvendite.user_sales_count}}
-                    </v-chip>
+                    <Link :href="route('artist.myClients')">
+                        <v-chip
+                            style="cursor: pointer"
+                            class="ma-2"
+                            color="primary"
+                            variant="outlined"
+                        >
+                            {{infoArtistConAlbumEvendite.user_sales_count}}
+                        </v-chip>
+                    </Link>
                 </v-sheet>
             </v-col>
         </v-row>
@@ -49,7 +52,19 @@
                 </v-sheet>
             </v-col>
             <v-col>
-
+                <v-sheet rounded elevation="3" class="mt-2 p-3">
+                    Total Sales:
+                    <Link :href="route('artist.myAlbumSales')">
+                        <v-chip
+                            style="cursor: pointer"
+                            class="ma-2"
+                            color="success"
+                            variant="outlined"
+                        >
+                            {{totAlbumVendite}}
+                        </v-chip>
+                    </Link>
+                </v-sheet>
             </v-col>
         </v-row>
 
@@ -57,9 +72,11 @@
 </template>
 
 <script setup>
+import { Link } from "@inertiajs/vue3";
 defineProps({
     'infoArtistConAlbumEvendite' : Object,
     'BestAlbumSales' : Object,
+    'totAlbumVendite' : Number,
 })
 </script>
 

@@ -1,11 +1,12 @@
 <x-mail::message>
 # Introduction
 
-The body of your message.
+Congratulation!
+You bought <b>{{$album['name']}}</b> album
 
-<x-mail::button :url="''">
+<!--<x-mail::button :url="''">
 Button Text
-</x-mail::button>
+</x-mail::button>-->
 
 Thanks,<br>
 {{ config('app.name') }}

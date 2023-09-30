@@ -39,7 +39,13 @@
                         <v-icon icon="mdi-music"></v-icon>
                     </v-btn>
                 </Link>
-                <v-btn @click="buyAlbum(item)" color="success mx-2" v-if="!item.user_sales.some(element => {
+                <v-progress-circular
+                    class="ml-5"
+                    v-if="sendMail && idAlbumToBuy == item.id"
+                    indeterminate
+                    color="primary"
+                ></v-progress-circular>
+                <v-btn v-else @click="buyAlbum(item)" color="success mx-2" v-if="!item.user_sales.some(element => {
                     if(element.id === $page.props.auth.user.id) {
                         return true
                         }
@@ -69,14 +75,28 @@
         </tbody>
     </v-table>
 
+    <v-snackbar
+        :timeout="2000"
+        color="deep-purple-accent-4"
+        elevation="24"
+        v-model="buyOk"
+    >
+        Album Bought
+    </v-snackbar>
+
 </template>
 
 <script setup>
 import {Link, useForm} from '@inertiajs/vue3';
+import {ref} from "vue";
 
 defineProps({
     'artistConAlbums' : Object
 })
+
+let sendMail = ref(false);
+let buyOk = ref(false);
+let idAlbumToBuy = ref();
 
 let form = useForm({
     album: {},
@@ -87,8 +107,15 @@ let imgLink = (item) => {
 }
 
 let buyAlbum = (album) => {
+    idAlbumToBuy.value = album.id;
+    sendMail.value = true;
     form.album = album;
-    form.post('/user/buyAlbum');
+    form.post('/user/buyAlbum', {
+        onSuccess: () => {
+            sendMail.value = false;
+            buyOk.value = true;
+        }
+    });
 }
 
 </script>

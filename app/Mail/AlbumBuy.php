@@ -13,12 +13,14 @@ class AlbumBuy extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $album = [];
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($album)
     {
-        //
+        $this->album = $album;
     }
 
     /**

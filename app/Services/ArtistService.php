@@ -71,6 +71,9 @@ class ArtistService
             ->find($idArtist));*/
 
         return Artist::select('id')
+            ->with(['albums' => function($a){
+                $a->withCount('userSales');
+            }])
             ->withCount('albums')
             ->withCount('userSales')
             ->find($idArtist);
@@ -156,5 +159,20 @@ class ArtistService
             $a->with('userSales');
         }])
             ->find($idArtist);
+    }
+
+    public function listOfClients($idArtist)
+    {
+        return Artist::with('userSales')->find($idArtist)->userSales;
+    }
+
+    public function listOfMyAlbumSales($idArtist)
+    {
+        /*dd(Artist::with(['albums' => function($a){
+            $a->whereHas('userSales');
+        }])->find($idArtist));*/
+        return Artist::with(['albums' => function($a){
+            $a->whereHas('userSales')->withCount('userSales');
+        }])->find($idArtist)->albums;
     }
 }

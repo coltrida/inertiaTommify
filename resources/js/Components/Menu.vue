@@ -143,8 +143,17 @@
                         </template>
                         <v-list>
                             <v-list-item>
+                                <Link :href="route('user.settings')">
+                                    <v-btn block variant='text'>
+                                        <v-icon icon="mdi-cog" class="mr-2"></v-icon>
+                                        Settings
+                                    </v-btn>
+                                </Link>
+                            </v-list-item>
+                            <v-list-item>
                                 <Link :href="route('logout')" method="post" as="button">
                                     <v-btn block variant='text'>
+                                        <v-icon icon="mdi-arrow-left" class="mr-2"></v-icon>
                                         Logout
                                     </v-btn>
                                 </Link>

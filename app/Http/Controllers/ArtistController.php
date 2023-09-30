@@ -16,8 +16,11 @@ class ArtistController extends Controller
 {
     public function home(ArtistService $artistService)
     {
+        $infoArtistConAlbumEvendite = $artistService->infoArtistConAlbumEvendite(Auth::user()->artist->id);
+        $totAlbumVendite = $infoArtistConAlbumEvendite->albums->sum('user_sales_count');
         return Inertia::render('Artist/Home', [
-            'infoArtistConAlbumEvendite' => $artistService->infoArtistConAlbumEvendite(Auth::user()->artist->id),
+            'infoArtistConAlbumEvendite' => $infoArtistConAlbumEvendite,
+            'totAlbumVendite' => $totAlbumVendite,
             'BestAlbumSales' => $artistService->BestAlbumSales(Auth::user()->artist->id),
         ]);
     }
@@ -80,5 +83,19 @@ class ArtistController extends Controller
             $filename = $song->id . '.mp3';
             $file->storeAs('public/songs/', $filename);
         }
+    }
+
+    public function myClients(ArtistService $artistService)
+    {
+        return Inertia::render('Artist/MyClients', [
+            'myClients' => $artistService->listOfClients(Auth::user()->artist->id)
+        ]);
+    }
+
+    public function myAlbumSales(ArtistService $artistService)
+    {
+        return Inertia::render('Artist/MySales', [
+            'myAlbumSales' => $artistService->listOfMyAlbumSales(Auth::user()->artist->id)
+        ]);
     }
 }
