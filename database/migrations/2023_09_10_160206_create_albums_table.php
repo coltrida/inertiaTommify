@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('artist_id');
             $table->string('name');
+            $table->decimal('price')->nullable();
+            $table->string('stripeId')->nullable();
             $table->timestamps();
         });
     }

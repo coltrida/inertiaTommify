@@ -62,7 +62,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $guarded = [];
-    protected $appends = ['created', 'mese'];
+    protected $appends = ['created', 'mese', 'avatar'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -83,6 +83,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getAvatarAttribute()
+    {
+        return \Storage::disk('public')->fileExists('/users/'.$this->id.'.jpg') ?
+            '/storage/users/'.$this->id.'.jpg' : '/storage/users/user.jpg';
+    }
 
     public function getMeseAttribute()
     {
@@ -144,4 +150,8 @@ class User extends Authenticatable
             ->withPivot(['read'])->where('read', 0);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'tags_users', 'user_id', 'tag_id');
+    }
 }

@@ -92,4 +92,9 @@ class AlbumService
             $user->artistSales()->attach($idArtist);
         }
     }
+
+    public function followersOfAlbum($idAlbum)
+    {
+        return Album::with('userSales')->find($idAlbum);
+    }
 }

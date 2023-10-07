@@ -163,4 +163,20 @@ class UserService
         }])->find(Auth::id())->albumSales;
     }
 
+    public function userConTags($id)
+    {
+        return User::with('tags')->find($id);
+    }
+
+    public function userConAlbumArtist($idUser, $idArtist)
+    {
+        return User::with(['albumSales' => function($a) use($idArtist){
+            $a->where('artist_id', $idArtist);
+        }])->find($idUser);
+    }
+
+    public function aggiornaUser($request)
+    {
+        User::find($request->idUser)->update($request->only(['email', 'country', 'city']));
+    }
 }

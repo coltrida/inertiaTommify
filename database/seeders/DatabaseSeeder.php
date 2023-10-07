@@ -20,19 +20,24 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        $this->call(TagSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(TagUserSeeder::class);
         $this->call(ArtistSeeder::class);
         $this->call(AlbumSeeder::class);
         $this->call(SongSeeder::class);
-    //    $this->call(AlbumSalesSeeder::class);
-    //    $this->call(ArtistSalesSeeder::class);
+        $this->call(AlbumSalesSeeder::class);
+        $this->call(ArtistSalesSeeder::class);
 
         Storage::disk('public')->deleteDirectory('covers/');
         Storage::disk('public')->deleteDirectory('songs/');
+        Storage::disk('public')->deleteDirectory('users/');
 
         Storage::disk('public')->makeDirectory('covers/');
         Storage::disk('public')->makeDirectory('songs/');
+        Storage::disk('public')->makeDirectory('users/');
 
+        Storage::copy('user.jpg', 'public/users/user.jpg');
         Storage::copy('1.mp3', 'public/songs/1.mp3');
         Storage::copy('2.mp3', 'public/songs/2.mp3');
         Storage::copy('3.mp3', 'public/songs/3.mp3');

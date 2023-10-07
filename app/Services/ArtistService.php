@@ -138,12 +138,16 @@ class ArtistService
                     $u->where('name', 'like', "%{$search}%");
                 });
             })
+            ->when(Request::input('tag'), function ($query, $tag){
+                $query->where('tag_id', $tag);
+            })
             ->latest()
             ->paginate(5)
             ->withQueryString()
             ->through(fn($artist) => [
                 'id' => $artist->id,
                 'name' => $artist->user->name,
+                'tag' => $artist->tag->name,
                 'userSales' => $artist->userSales()->get()->pluck('id')->toArray(),
             ]);
     }
@@ -174,5 +178,10 @@ class ArtistService
         return Artist::with(['albums' => function($a){
             $a->whereHas('userSales')->withCount('userSales');
         }])->find($idArtist)->albums;
+    }
+
+    public function followersOfArtist($idArtist)
+    {
+        return Artist::with('userSales', 'user')->find($idArtist);
     }
 }

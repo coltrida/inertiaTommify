@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Artist;
+use App\Models\Tag;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,9 +18,11 @@ class ArtistSeeder extends Seeder
     public function run(): void
     {
         $artists = User::where('role', 'artist')->get();
+        $idTags = Tag::all()->pluck('id')->toArray();
         foreach ($artists as $artist){
             Artist::create([
                 'user_id' => $artist->id,
+                'tag_id' => \Arr::random($idTags),
                 'created_at' => fake()->dateTimeBetween('-1 year')
             ]);
         }

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AlbumBuy;
+use App\Models\Tag;
 use App\Services\AlbumService;
 use App\Services\ArtistService;
+use App\Services\TagService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +28,24 @@ class UserController extends Controller
         ]);
     }
 
-    public function settings()
+    public function settings(UserService $userService)
     {
-        return Inertia::render('User/Settings');
+        return Inertia::render('User/Settings', [
+            'userConTags' => $userService->userConTags(Auth::id()),
+            'fotoEsiste' => \Storage::disk('public')->fileExists('/users/'.Auth::id().'.jpg'),
+        ]);
+    }
+
+    public function saveImage(Request $request)
+    {
+          $file = $request->file('image')[0];
+          $filename = $request->idUser . '.jpg';
+          $file->storeAs('public/users/', $filename);
+    }
+
+    public function postSettings(Request $request, UserService $userService)
+    {
+        $userService->aggiornaUser($request);
     }
 
     public function myArtists(UserService $userService)
@@ -39,11 +56,33 @@ class UserController extends Controller
         ]);
     }
 
-    public function allArtists(ArtistService $artistService)
+    public function allArtists(ArtistService $artistService, TagService $tagService)
     {
         return Inertia::render('User/AllArtists', [
             'allArtists' => $artistService->allArtistsPaginate(),
+            'allTags' => $tagService->list(),
             'filters' => \Illuminate\Support\Facades\Request::only('search')
+        ]);
+    }
+
+    public function followersArtist($idArtist, ArtistService $artistService)
+    {
+        return Inertia::render('User/FollowersOfArtist', [
+          'artistConFollowers' => $artistService->followersOfArtist($idArtist)
+        ]);
+    }
+
+    public function followersAlbum($idAlbum, AlbumService $albumService)
+    {
+        return Inertia::render('User/FollowersOfAlbum', [
+            'albumConFollowers' => $albumService->followersOfAlbum($idAlbum)
+        ]);
+    }
+
+    public function followerUser($idArtist, $idUser, UserService $userService)
+    {
+        return Inertia::render('User/InfoUser', [
+          'userConAlbumArtist' => $userService->userConAlbumArtist($idUser, $idArtist)
         ]);
     }
 
@@ -139,4 +178,6 @@ class UserController extends Controller
         $albumService->buyAlbum($request);
         Mail::to('coltrida@gmail.com')->queue(new AlbumBuy($request->album));
     }
+
+
 }

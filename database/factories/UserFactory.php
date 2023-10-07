@@ -23,6 +23,8 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'role' => Arr::random(['user', 'artist']),
+            'country' => Arr::random(['USA', 'Germany', 'Italy', 'France', 'Spain']),
+            'city' => Arr::random(['NY', 'Rome', 'Berlin', 'Paris', 'Madrid', 'Barcelona', 'Florence', 'San Francisco']),
             'email_verified_at' => now(),
             'password' => Hash::make('123456'),
             'remember_token' => Str::random(10),

@@ -86,6 +86,11 @@
                                 Albums
                             </v-btn>
                         </Link>
+                        <Link :href="route('admin.tags')">
+                            <v-btn :variant="$page.component === 'Admin/Tags' ? 'tonal' : 'text'">
+                                Tags
+                            </v-btn>
+                        </Link>
                     </span>
 
                     <span v-if="$page.props.auth.user.role === 'artist'">

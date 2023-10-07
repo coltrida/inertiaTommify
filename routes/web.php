@@ -21,6 +21,9 @@ Route::group(
         Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
         Route::get('/artists', [AdminController::class, 'artists'])->name('admin.artists');
         Route::get('/albums', [AdminController::class, 'albums'])->name('admin.albums');
+        Route::get('/tags', [AdminController::class, 'tags'])->name('admin.tags');
+        Route::post('/tags/insert', [AdminController::class, 'insertTag'])->name('admin.tags.insert');
+        Route::delete('/tags/delete/{idTag}', [AdminController::class, 'deleteTag'])->name('admin.tags.delete');
 });
 
 //-------------------Artist----------------------------
@@ -48,14 +51,17 @@ Route::group(
     function() {
         Route::get('/home', [UserController::class, 'home'])->name('user.home');
         Route::get('/settings', [UserController::class, 'settings'])->name('user.settings');
+        Route::post('/saveImage', [UserController::class, 'saveImage'])->name('user.saveImage');
+        Route::post('/settings', [UserController::class, 'postSettings'])->name('user.settings.post');
         Route::get('/myArtists', [UserController::class, 'myArtists'])->name('user.myArtists');
         Route::get('/allArtists', [UserController::class, 'allArtists'])->name('user.allArtists');
+        Route::get('/allArtists/followers/{idArtist}', [UserController::class, 'followersArtist'])->name('user.allArtists.followers');
+        Route::get('/allArtists/albums/followers/{idAlbum}', [UserController::class, 'followersAlbum'])->name('user.album.followers');
+        Route::get('/allArtists/followers/{idArtist}/{idUser}', [UserController::class, 'followerUser'])->name('user.allArtists.follower.user');
         Route::get('/allArtists/albums/{idArtist}', [UserController::class, 'albumsOfArtist'])->name('user.albumsOfArtist');
         Route::get('/allArtists/albums/songs/{idAlbum}', [UserController::class, 'songsOfAlbum'])->name('user.songsOfAlbum');
         Route::post('/readNews', [UserController::class, 'readNews'])->name('user.readNews');
-
         Route::post('/playMyAlbum', [UserController::class, 'playMyAlbum'])->name('user.playMyAlbum');
-
         Route::post('/buyAlbum', [UserController::class, 'buyAlbum'])->name('user.buyAlbum');
 
         Route::get('/paypal', [UserController::class, 'paypal'])->name('user.paypal');

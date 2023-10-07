@@ -43,6 +43,11 @@ class Artist extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tag()
+    {
+        return $this->belongsTo(Tag::class);
+    }
+
     public function userSales()
     {
         return $this->belongsToMany(User::class, 'artist_sales', 'artist_id', 'user_id');

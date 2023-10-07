@@ -1,7 +1,7 @@
 <template>
     <Head title="Albums of Artist" />
     <div class="d-flex justify-space-between">
-        <div class="text-h3">Albums of {{artistConAlbums.user.name}}  artist</div>
+        <div class="text-h3">Albums of artist: {{artistConAlbums.user.name}}</div>
     </div>
 
     <v-table theme="dark" style="border-collapse:separate;
@@ -9,7 +9,7 @@
                     border-radius:6px;">
         <thead>
         <tr style="background: #9ca3af;">
-            <th class="text-left text-black" style="width: 50%">
+            <th class="text-left text-black" style="width: 40%">
                 Name
             </th>
             <th class="text-left text-black" style="width: 30%">
@@ -35,8 +35,13 @@
             </td>
             <td class="">
                 <Link :href="route('user.songsOfAlbum', item.id)">
-                    <v-btn color="primary" title="songs">
+                    <v-btn color="primary mx-2" title="songs">
                         <v-icon icon="mdi-music"></v-icon>
+                    </v-btn>
+                </Link>
+                <Link :href="route('user.album.followers', item.id)">
+                    <v-btn color="blue mx-2" title="followers">
+                        <v-icon icon="mdi-account"></v-icon>
                     </v-btn>
                 </Link>
                 <v-progress-circular

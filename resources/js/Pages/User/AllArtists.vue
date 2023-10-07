@@ -7,13 +7,25 @@
         </div>
     </div>
 
-    <v-table theme="dark" style="border-collapse:separate;
+    <div class="d-flex justify-space-between">
+        <v-btn class="mr-2" color="blue" @click="filtraTag(null)">
+            <span>All</span>
+        </v-btn>
+        <v-btn v-for="tag in allTags" :value="tag.id" :key="tag.id" class="mr-2" color="blue" @click="filtraTag(tag.id)">
+            <span>{{tag.name}}</span>
+        </v-btn>
+    </div>
+
+    <v-table theme="dark" style="margin-top: 20px; border-collapse:separate;
                     border:solid black 1px;
                     border-radius:6px;">
         <thead>
         <tr style="background: #9ca3af;">
-            <th class="text-left text-black" style="width: 70%">
+            <th class="text-left text-black" style="width: 60%">
                 Name
+            </th>
+            <th class="text-black">
+                Style
             </th>
             <th class="text-black">
                 Actions
@@ -26,10 +38,16 @@
             :key="item.id"
         >
             <td>{{ item.name }}</td>
+            <td>{{ item.tag }}</td>
             <td class="">
                 <Link :href="route('user.albumsOfArtist', item.id)">
                     <v-btn color="primary" title="albums">
                         <v-icon icon="mdi-music-box-multiple-outline"></v-icon>
+                    </v-btn>
+                </Link>
+                <Link :href="route('user.allArtists.followers', item.id)">
+                    <v-btn style="margin-left: 10px" color="success" title="followers">
+                        <v-icon icon="mdi-account"></v-icon>
                     </v-btn>
                 </Link>
 <!--                <v-btn color="success mx-2" v-if="!item.userSales.includes($page.props.auth.user.id)">
@@ -64,6 +82,7 @@ import {Link, router} from '@inertiajs/vue3';
 import {ref, watch} from "vue";
 let props = defineProps({
     allArtists: Object,
+    allTags: Object,
     filters: Object
 })
 
@@ -75,6 +94,13 @@ watch(search, value => {
         replace: true
     })
 })
+
+let filtraTag = (idTag) => {
+    router.get('/user/allArtists', { tag: idTag }, {
+        preserveState: true,
+        replace: true
+    })
+}
 
 </script>
 

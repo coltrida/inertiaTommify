@@ -20,6 +20,8 @@ class UserSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@admin.it',
             'role' => 'admin',
+            'country' => null,
+            'city' => null,
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('123456'),
         ]);
@@ -28,6 +30,8 @@ class UserSeeder extends Seeder
             'name' => 'cacao',
             'email' => 'cacao@cacao.it',
             'role' => 'user',
+            'country' => 'Italy',
+            'city' => 'Florence',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('123456'),
         ]);
@@ -36,6 +40,8 @@ class UserSeeder extends Seeder
             'name' => 'vitali',
             'email' => 'vitali@vitali.it',
             'role' => 'artist',
+            'country' => null,
+            'city' => null,
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('123456'),
         ]);

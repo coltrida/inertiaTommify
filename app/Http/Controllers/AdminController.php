@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\AlbumService;
 use App\Services\ArtistService;
 use App\Services\SongService;
+use App\Services\TagService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -48,5 +49,22 @@ class AdminController extends Controller
             'albums' => $albumService->listOfAlbums(),
             'filters' => \Illuminate\Support\Facades\Request::only('search')
         ]);
+    }
+
+    public function tags(TagService $tagService)
+    {
+        return Inertia::render('Admin/Tags', [
+            'tags' => $tagService->list()
+        ]);
+    }
+
+    public function insertTag(Request $request, TagService $tagService)
+    {
+        $tagService->insert($request);
+    }
+
+    public function deleteTag($idTag, TagService $tagService)
+    {
+        $tagService->delete($idTag);
     }
 }
