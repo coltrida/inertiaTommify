@@ -51,6 +51,17 @@
         </div>
     </div>
 
+    <v-chip
+        class="ma-6"
+        color="pink"
+        label
+        text-color="white"
+    >
+        <v-icon start icon="mdi-label"></v-icon>
+        Every Album must have at least 5 songs to be visible!
+    </v-chip>
+
+
     <v-table theme="dark">
         <thead>
         <tr style="background: #9ca3af;">
@@ -62,6 +73,9 @@
             </th>
             <th class="text-left text-black" style="width: 400px">
                 Action
+            </th>
+            <th class="text-left text-black" style="width: 400px">
+                Visible
             </th>
         </tr>
         </thead>
@@ -83,11 +97,19 @@
                 <Link :href="route('artist.myAlbums.addSongs', item.id)">
                     <v-badge :content="item.nrSongs" color="warning">
                         <v-btn color="#5865f2">
-                            Add Songs
+                            {{item.visible ? 'view Songs' : 'Add Songs'}}
                         </v-btn>
                     </v-badge>
                 </Link>
-
+            </td>
+            <td>
+                <v-chip
+                    class="ma-2"
+                    :color="item.visible ? 'green' : 'red'"
+                    text-color="white"
+                >
+                    {{item.visible ? 'yes' : 'no'}}
+                </v-chip>
             </td>
         </tr>
         <tr>

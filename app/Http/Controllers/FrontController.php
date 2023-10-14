@@ -18,6 +18,16 @@ class FrontController extends Controller
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
         ]);*/
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY_TEST'));
+
+      //  dd($stripe->balance->retrieve([]));
+        $stripe->transfers->create([
+            'amount' => 500,
+            'currency' => 'usd',
+            'destination' => 'acct_1O0AFjQxlLYvJpc2',
+        ]);
+
         return Inertia::render('Home', [
             'lastCinqueAlbum' => $albumService->lastCinqueAlbum(),
             'bestCinqueAlbumSellers' => $albumService->bestCinqueAlbumSellers(),

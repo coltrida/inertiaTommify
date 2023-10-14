@@ -4,7 +4,7 @@
         rounded="0"
     >
         <v-toolbar :elevation="8"
-            color="blue-grey-darken-4"
+            color="black"
             fixed
         >
 
@@ -29,7 +29,11 @@
                 </v-list>
             </v-navigation-drawer>-->
 
-            <v-toolbar-title>Tommify</v-toolbar-title>
+            <v-toolbar-title>
+                <Link :href="route('home')">
+                    <v-img width="200" src="/img/logo.jpg"></v-img>
+                </Link>
+            </v-toolbar-title>
 
             <v-spacer></v-spacer>
 
@@ -168,14 +172,26 @@
                 </div>
                 <div v-else>
                     <Link :href="route('login')">
-                        <v-btn variant="text">
+                        <v-btn rounded="xl"  style="background: orange; color: black; margin-right: 5px">
                             Login
                         </v-btn>
                     </Link>
 
+                    <Link :href="route('register.artist')">
+<!--                        <v-btn variant="text">
+                            Register as Artist
+                        </v-btn>-->
+                        <v-btn rounded="xl"  style="background: orange; color: black; margin-right: 5px">
+                            Register as Artist
+                        </v-btn>
+                    </Link>
+
                     <Link :href="route('register')">
-                        <v-btn variant="text">
-                            Register
+<!--                        <v-btn variant="text">
+                            Register as User
+                        </v-btn>-->
+                        <v-btn rounded="xl"  style="background: orange; color: black; margin-right: 5px">
+                            Register as User
                         </v-btn>
                     </Link>
                 </div>

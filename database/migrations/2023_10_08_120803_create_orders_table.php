@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('albums', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('status');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('artist_id');
-            $table->string('name');
-            $table->decimal('price')->nullable();
-            $table->boolean('visible')->nullable()->default(false);
-            $table->string('stripeId')->nullable();
+            $table->decimal('total');
+            $table->string('stripe_session_id');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('albums');
+        Schema::dropIfExists('orders');
     }
 };

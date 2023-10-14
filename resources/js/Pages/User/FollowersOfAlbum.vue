@@ -41,6 +41,14 @@
                 <v-btn color="primary" title="contact">
                     <v-icon icon="mdi-mail"></v-icon>
                 </v-btn>
+                <Link :href="route('user.allArtists.follower.user', [
+                    idArtist = albumConFollowers.artist_id,
+                    idUser = item.id,
+                ])">
+                    <v-btn color="success mx-2" title="info">
+                        <v-icon icon="mdi-information"></v-icon>
+                    </v-btn>
+                </Link>
             </td>
         </tr>
         </tbody>

@@ -16,9 +16,11 @@ class ArtistController extends Controller
 {
     public function home(ArtistService $artistService)
     {
+        $infoStripe = $artistService->infoStripe(Auth::user()->artist->id);
         $infoArtistConAlbumEvendite = $artistService->infoArtistConAlbumEvendite(Auth::user()->artist->id);
         $totAlbumVendite = $infoArtistConAlbumEvendite->albums->sum('user_sales_count');
         return Inertia::render('Artist/Home', [
+            'infoStripe' => $infoStripe,
             'infoArtistConAlbumEvendite' => $infoArtistConAlbumEvendite,
             'totAlbumVendite' => $totAlbumVendite,
             'BestAlbumSales' => $artistService->BestAlbumSales(Auth::user()->artist->id),

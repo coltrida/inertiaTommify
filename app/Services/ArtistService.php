@@ -53,6 +53,7 @@ class ArtistService
             ->through(fn($album) => [
                 'id' => $album->id,
                 'name' => $album->name,
+                'visible' => $album->visible,
                 'artist' => $album->artist->user->name,
                 'nrSongs' => $album->songs_count,
         ]);
@@ -160,7 +161,7 @@ class ArtistService
             ->find($idArtist));*/
 
         return Artist::with(['user', 'albums' => function($a){
-            $a->with('userSales');
+            $a->where('visible', 1)->with('userSales');
         }])
             ->find($idArtist);
     }
@@ -183,5 +184,16 @@ class ArtistService
     public function followersOfArtist($idArtist)
     {
         return Artist::with('userSales', 'user')->find($idArtist);
+    }
+
+    public function infoStripe($idArtist)
+    {
+        $stripe_id = Artist::find($idArtist)->stripe_id;
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY_TEST'));
+
+        return $stripe->accounts->retrieve(
+            $stripe_id,
+            []
+        );
     }
 }

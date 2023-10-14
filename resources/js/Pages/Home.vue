@@ -1,6 +1,6 @@
 <template>
     <Head title="Home" />
-    <div class="text-h3">Last Abums</div>
+<!--    <div class="text-h3">Last Abums</div>
     <v-carousel
         cycle
         height="400"
@@ -15,11 +15,11 @@
                 height="100%"
                 aspect-ratio="16/9"
                 cover
-                :src="imgLink(album)"
+                :src="album.cover"
             >
                 <div class="d-flex fill-height justify-center align-center">
                     <div class="text-h2">
-                        {{ album.name }} Slide
+                        {{ album.name }}
                     </div>
                 </div>
             </v-img>
@@ -41,7 +41,7 @@
                 height="100%"
                 aspect-ratio="16/9"
                 cover
-                :src="imgLink(album)"
+                :src="album.cover"
             >
                 <div class="d-flex fill-height justify-center align-center">
                     <div class="text-h2">
@@ -50,19 +50,34 @@
                 </div>
             </v-img>
         </v-carousel-item>
-    </v-carousel>
+    </v-carousel>-->
+    <v-parallax
+        src="/img/sfondoHome.jpg"
+    >
+        <div class="d-flex flex-column fill-height justify-center align-end pa-5 text-white">
+            <h1 class="text-h4 font-weight-thin mb-4">
+                THE BEST WAY TO SUPPORT YOUR FAVORITE ARTISTS. <br>
+                JUST PAY AND GET PAID FOR WHAT YOU LIKE. <br>
+                NO MONTHLY FEES. IT'S FOREVER YOURS.
+            </h1>
+            <h4 class="subheading">
+                <v-btn rounded="xl" color="orange">
+                    LEARN MORE
+                </v-btn>
+            </h4>
+        </div>
+
+    </v-parallax>
+
+
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
+
 defineProps({
     lastCinqueAlbum: Object,
     bestCinqueAlbumSellers: Object,
 })
-
-let imgLink = (album) => {
-    return '/storage/covers/'+album.id+'.jpg'
-}
 
 </script>
 

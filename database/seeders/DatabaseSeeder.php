@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
         Storage::disk('public')->makeDirectory('users/');
 
         Storage::copy('user.jpg', 'public/users/user.jpg');
+        Storage::copy('user.jpg', 'public/covers/cover.jpg');
         Storage::copy('1.mp3', 'public/songs/1.mp3');
         Storage::copy('2.mp3', 'public/songs/2.mp3');
         Storage::copy('3.mp3', 'public/songs/3.mp3');

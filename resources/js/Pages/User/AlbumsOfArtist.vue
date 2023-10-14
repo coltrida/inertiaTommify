@@ -30,7 +30,7 @@
                 <v-img
                     :width="100"
                     cover
-                    :src="imgLink(item)"
+                    :src=item.cover
                 ></v-img>
             </td>
             <td class="">
@@ -44,19 +44,22 @@
                         <v-icon icon="mdi-account"></v-icon>
                     </v-btn>
                 </Link>
-                <v-progress-circular
+<!--                <v-progress-circular
                     class="ml-5"
                     v-if="sendMail && idAlbumToBuy == item.id"
                     indeterminate
                     color="primary"
-                ></v-progress-circular>
-                <v-btn v-else @click="buyAlbum(item)" color="success mx-2" v-if="!item.user_sales.some(element => {
+                ></v-progress-circular>-->
+                <Link :href="route('user.paypal')">
+                    <v-btn  @click="buyAlbum(item)" color="success mx-2" v-if="!item.user_sales.some(element => {
                     if(element.id === $page.props.auth.user.id) {
                         return true
                         }
                     })">
-                    <v-icon icon="mdi-cash"></v-icon>
-                </v-btn>
+                        <v-icon icon="mdi-cash"></v-icon>
+                    </v-btn>
+                </Link>
+
             </td>
         </tr>
 <!--        <tr>
@@ -107,20 +110,17 @@ let form = useForm({
     album: {},
 });
 
-let imgLink = (item) => {
-    return '/storage/covers/' + item.id + '.jpg'
-}
-
 let buyAlbum = (album) => {
     idAlbumToBuy.value = album.id;
     sendMail.value = true;
     form.album = album;
-    form.post('/user/buyAlbum', {
+    form.get('/paypal');
+    /*form.post('/user/buyAlbum', {
         onSuccess: () => {
             sendMail.value = false;
             buyOk.value = true;
         }
-    });
+    });*/
 }
 
 </script>

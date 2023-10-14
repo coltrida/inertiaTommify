@@ -133,6 +133,12 @@ class User extends Authenticatable
             ->withPivot('updated_at');
     }
 
+    public function otherAlbumSales()
+    {
+        return $this->belongsToMany(Album::class, 'album_sales', 'user_id', 'album_id')
+            ->withPivot('updated_at');
+    }
+
     public function artistSales()
     {
         return $this->belongsToMany(Artist::class, 'artist_sales', 'user_id', 'artist_id');

@@ -33,6 +33,13 @@ class Album extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = ['cover'];
+
+    public function getCoverAttribute()
+    {
+        return \Storage::disk('public')->fileExists('/covers/'.$this->id.'.jpg') ?
+            '/storage/covers/'.$this->id.'.jpg' : '/storage/covers/cover.jpg';
+    }
 
     public function artist()
     {

@@ -1,6 +1,6 @@
 <template>
     <Menu/>
-    <v-container>
+
         <div>
             <slot/>
             <v-sheet v-if="visiblePlay" rounded elevation="3" class="mt-2 p-3" color="#E1F5FE">
@@ -43,7 +43,7 @@
         NumeroCanzoni:{{listOfSongs.length}}
         index:{{indexSong}}
         shuffle:{{shufflePlayBool}}-->
-    </v-container>
+
 </template>
 
 <script setup>

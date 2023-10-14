@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AlbumBuy;
+use App\Models\Order;
 use App\Models\Tag;
 use App\Services\AlbumService;
 use App\Services\ArtistService;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Srmklive\PayPal\Services\PayPal;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -175,9 +177,78 @@ class UserController extends Controller
 
     public function buyAlbum(Request $request, AlbumService $albumService)
     {
-        $albumService->buyAlbum($request);
-        Mail::to('coltrida@gmail.com')->queue(new AlbumBuy($request->album));
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY_TEST'));
+
+        $checkout_session = $stripe->checkout->sessions->create([
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'product_data' => [
+                            'name' => $request->album['name'].' album',
+                        ],
+                        'unit_amount' => 2000,
+                    ],
+                    'quantity' => 1,
+                ]
+            ],
+            'mode' => 'payment',
+            /*'success_url' => 'http://localhost:4242/success',
+            'cancel_url' => 'http://localhost:4242/cancel',*/
+            'customer_email' => Auth::user()->email,
+            'success_url' => route('user.buyAlbum.success', [], true)."?session_id={CHECKOUT_SESSION_ID}",
+            'cancel_url' => route('user.buyAlbum.cancel', [], true),
+        ]);
+
+        $order = new Order();
+        $order->status = 'unpaid';
+        $order->total = 2000;
+        $order->user_id = Auth::id();
+        $order->artist_id = $request->album['artist_id'];
+        $order->stripe_session_id = $checkout_session->id;
+        $order->save();
+
+        return Inertia::location($checkout_session->url);
+
+
+/*        $albumService->buyAlbum($request);
+        Mail::to('coltrida@gmail.com')->queue(new AlbumBuy($request->album));*/
     }
 
+    public function success(Request $request)
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY_TEST'));
 
+        $session = $stripe->checkout->sessions->retrieve($_GET['session_id']);
+        //dd($session);
+        if (!$session){
+            throw new NotFoundHttpException;
+        }
+
+        $artist = Order::with(['artist' => function($a){
+            $a->with('user');
+        }])
+            ->where('stripe_session_id', $_GET['session_id'])
+            ->first()
+            ->artist;
+
+        $stripe->customers->create([
+            'description' => 'My First Test Customer (created for API docs at https://www.stripe.com/docs/api)',
+        ]);
+
+
+
+
+
+        $customer = $session->customer_details;
+
+        return Inertia::render('User/PaymentSuccess', [
+            'customer' => $customer
+        ]);
+    }
+
+    public function cancel()
+    {
+        return to_route('user.home');
+    }
 }

@@ -165,13 +165,21 @@ class UserService
 
     public function userConTags($id)
     {
-        return User::with('tags')->find($id);
+        return User::with(['tags', 'artist' => function($a){
+            $a->with('tag');
+        }])->find($id);
     }
 
     public function userConAlbumArtist($idUser, $idArtist)
     {
         return User::with(['albumSales' => function($a) use($idArtist){
-            $a->where('artist_id', $idArtist);
+            $a->where('artist_id', $idArtist)->with(['artist' => function($ar){
+                $ar->with('user');
+            }]);
+        }, 'otherAlbumSales' => function($o) use($idArtist){
+            $o->whereNot('artist_id', $idArtist)->with(['artist' => function($art){
+                $art->with('user');
+            }]);
         }])->find($idUser);
     }
 

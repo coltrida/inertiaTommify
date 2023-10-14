@@ -1,7 +1,7 @@
 <template>
     <Head title="Settings" />
     <div class="d-flex justify-space-between">
-        <div class="text-h3">Settings</div>
+        <div class="text-h3">Settings - ({{userConTags.role}})</div>
     </div>
 
     <v-row class="mt-5">
@@ -57,6 +57,16 @@
                 {{tag.name}}
             </v-chip>
         </v-col>
+    </v-row>
+
+    <v-row v-if="userConTags.role == 'artist'">
+        <v-chip
+            style="width: 100px;"
+            label
+            class="shadow-lg"
+        >
+            {{userConTags.artist.tag.name}}
+        </v-chip>
     </v-row>
 
     <v-row>

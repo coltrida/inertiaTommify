@@ -20,15 +20,18 @@ class AlbumSeeder extends Seeder
         Album::insert([
             [
                 'name' => 'album1',
-                'artist_id' => $vitali->id
+                'artist_id' => $vitali->id,
+                'visible' => 1
             ],
             [
                 'name' => 'album2',
-                'artist_id' => $vitali->id
+                'artist_id' => $vitali->id,
+                'visible' => 1
             ],
             [
                 'name' => 'album3',
-                'artist_id' => $vitali->id
+                'artist_id' => $vitali->id,
+                'visible' => 1
             ],
         ]);
 
@@ -39,7 +42,8 @@ class AlbumSeeder extends Seeder
         foreach ($artistsFiltered as $artist){
             $numberOfAlbum = rand(1,3);
             Album::factory($numberOfAlbum)->create([
-                'artist_id' => $artist->id
+                'artist_id' => $artist->id,
+                'visible' => 1
             ]);
         }
     }

@@ -35,9 +35,10 @@ class AlbumService
             'id' => $album->id,
             'name' => $album->name,
         ]));*/
-        return Album::latest()->limit(5)->get()->map(fn($album) => [
+        return Album::where('visible', 1)->latest()->limit(5)->get()->map(fn($album) => [
             'id' => $album->id,
             'name' => $album->name,
+            'cover' => $album->cover,
         ]);
     }
 
@@ -49,11 +50,12 @@ class AlbumService
             'id' => $album->id,
             'name' => $album->name,
         ]));*/
-        return Album::withCount('userSales')->with('userSales')->limit(5)->get()->sortByDesc(function ($album){
+        return Album::where('visible', 1)->withCount('userSales')->with('userSales')->limit(5)->get()->sortByDesc(function ($album){
             return $album->userSales()->count();
         })->map(fn($album) => [
             'id' => $album->id,
             'name' => $album->name,
+            'cover' => $album->cover,
         ]);
     }
 
@@ -62,14 +64,21 @@ class AlbumService
         /*dd(Album::select('id','name')->with(['songs' => function($s){
             $s->latest()->select('id', 'album_id', 'name');
         }])->find($idAlbum));*/
-        return Album::select('id','name')->with(['userSales','songs' => function($s){
+        return Album::select('id','name', 'visible')->with(['userSales','songs' => function($s){
             $s->latest()->select('id', 'album_id', 'name');
         }])->find($idAlbum);
     }
 
     public function addSong($request)
     {
-        return Song::create($request->only(['name', 'album_id']));
+        $song = Song::create($request->only(['name', 'album_id']));
+        $album = Album::with('songs')->find($request->album_id);
+
+        if (count($album->songs) == 5){
+            $album->visible = 1;
+            $album->save();
+        }
+        return $song;
     }
 
     public function countOfAlbums()

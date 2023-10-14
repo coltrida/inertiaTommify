@@ -1,4 +1,7 @@
 <template>
+
+    {{infoStripe}}
+
         <v-row>
             <v-col>
                 <v-sheet rounded elevation="3" class="mt-2 p-3">
@@ -38,7 +41,7 @@
                         color="success"
                         variant="outlined"
                     >
-                    {{BestAlbumSales.name}}
+                    {{BestAlbumSales?.name}}
                     </v-chip>
                         with
                     <v-chip
@@ -46,7 +49,7 @@
                         color="success"
                         variant="outlined"
                     >
-                    {{BestAlbumSales.user_sales_count}}
+                    {{BestAlbumSales?.user_sales_count}}
                     </v-chip>
                         clients
                 </v-sheet>
@@ -74,6 +77,7 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 defineProps({
+    'infoStripe' : Object,
     'infoArtistConAlbumEvendite' : Object,
     'BestAlbumSales' : Object,
     'totAlbumVendite' : Number,

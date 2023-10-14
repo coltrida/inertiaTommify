@@ -9,7 +9,7 @@
         </Link>
     </div>
 
-    <v-sheet rounded elevation="3" style="margin-top: 50px">
+    <v-sheet rounded elevation="3" style="margin-top: 50px" v-if="!albumConSongs.visible">
         <v-form @submit.prevent="insertSong">
             <v-container class="mb-4">
                 <v-row>

@@ -14,7 +14,7 @@ const form = useForm({
     email: '',
     password: '',
     password_confirmation: '',
-    role: 'user',
+    role: 'artist',
     tag: '',
     tags: []
 });
@@ -28,7 +28,7 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head title="Register Artist" />
 
         <form @submit.prevent="submit">
             <div>
@@ -94,15 +94,11 @@ const submit = () => {
 
             <div class="mt-4">
                 <InputLabel class="text-black" for="tags" value="tags" />
-                <div v-for="tag in tags" :key="tag.id">
-                    <input
-                        style="border: 1px solid black; border-radius: 4px; margin-right: 7px"
-                        type="checkbox"
-                        :value="tag.id"
-                        id="checkbox"
-                        v-model="form.tags" />
-                    <label for="checkbox">{{ tag.name }}</label>
-                </div>
+                <select v-model="form.tag" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                    <option v-for="tag in tags" :key="tag.id" :value="tag.id">
+                        {{tag.name}}
+                    </option>
+                </select>
             </div>
 
             <div class="flex items-center justify-end mt-4">
