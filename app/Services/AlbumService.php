@@ -91,11 +91,11 @@ class AlbumService
         User::find(Auth::id())->albumSales()->updateExistingPivot($request->albumId, ['updated_at' => Carbon::now()]);
     }
 
-    public function buyAlbum($request)
+    public function buyAlbum($album)
     {
         $user = User::find(Auth::id());
-        $user->albumSales()->attach($request->album['id']);
-        $idArtist = $request->album['artist_id'];
+        $user->albumSales()->attach($album['id']);
+        $idArtist = $album['artist_id'];
 
         if (!$user->artistSales->contains('id', $idArtist)){
             $user->artistSales()->attach($idArtist);

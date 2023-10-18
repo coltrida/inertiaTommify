@@ -1,7 +1,9 @@
 <template>
-    <Head title="Add Songs"/>
+    <Head :title="albumConSongs.visible ? 'View Songs' : 'Add Songs'"/>
+    <v-container>
     <div class="d-flex justify-space-between">
-        <div class="text-h3">Add Songs for {{ albumConSongs.name }}</div>
+        <div class="text-h3" v-if="albumConSongs.visible">View Songs for {{ albumConSongs.name }}</div>
+        <div class="text-h3" v-else>Add Songs for {{ albumConSongs.name }}</div>
         <Link :href="route('artist.myAlbums')">
             <v-btn color="#FFB74D">
                 Back
@@ -78,6 +80,7 @@
     >
         Song inserita
     </v-snackbar>
+    </v-container>
 </template>
 
 <script setup>

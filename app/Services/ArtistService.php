@@ -161,7 +161,7 @@ class ArtistService
             ->find($idArtist));*/
 
         return Artist::with(['user', 'albums' => function($a){
-            $a->where('visible', 1)->with('userSales');
+            $a->where('visible', 1)->with('userSales','artist');
         }])
             ->find($idArtist);
     }

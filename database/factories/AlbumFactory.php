@@ -18,6 +18,7 @@ class AlbumFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'price' => rand(10, 50)
         ];
     }
 }

@@ -20,16 +20,19 @@ class AlbumSeeder extends Seeder
         Album::insert([
             [
                 'name' => 'album1',
+                'price' => 42,
                 'artist_id' => $vitali->id,
                 'visible' => 1
             ],
             [
                 'name' => 'album2',
+                'price' => 32,
                 'artist_id' => $vitali->id,
                 'visible' => 1
             ],
             [
                 'name' => 'album3',
+                'price' => 52,
                 'artist_id' => $vitali->id,
                 'visible' => 1
             ],

@@ -1,4 +1,5 @@
 <template>
+    <v-container>
     <v-row>
         <v-col>
             <v-sheet rounded elevation="3" class="mt-2 p-3">
@@ -33,6 +34,7 @@
             </v-sheet>
         </v-col>
     </v-row>
+    </v-container>
 </template>
 
 <script setup>

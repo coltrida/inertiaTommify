@@ -1,5 +1,6 @@
 <template>
     <Head title="Albums of Artist" />
+    <v-container>
     <div class="d-flex justify-space-between">
         <div class="text-h3">Albums of artist: {{artistConAlbums.user.name}}</div>
     </div>
@@ -50,15 +51,15 @@
                     indeterminate
                     color="primary"
                 ></v-progress-circular>-->
-                <Link :href="route('user.paypal')">
+<!--                <Link :href="route('user.paypal')">-->
                     <v-btn  @click="buyAlbum(item)" color="success mx-2" v-if="!item.user_sales.some(element => {
-                    if(element.id === $page.props.auth.user.id) {
-                        return true
-                        }
-                    })">
-                        <v-icon icon="mdi-cash"></v-icon>
+                        if(element.id === $page.props.auth.user.id) {
+                            return true
+                            }
+                        })">
+                            <v-icon icon="mdi-cash"></v-icon>
                     </v-btn>
-                </Link>
+<!--                </Link>-->
 
             </td>
         </tr>
@@ -91,7 +92,7 @@
     >
         Album Bought
     </v-snackbar>
-
+    </v-container>
 </template>
 
 <script setup>
@@ -114,13 +115,7 @@ let buyAlbum = (album) => {
     idAlbumToBuy.value = album.id;
     sendMail.value = true;
     form.album = album;
-    form.get('/paypal');
-    /*form.post('/user/buyAlbum', {
-        onSuccess: () => {
-            sendMail.value = false;
-            buyOk.value = true;
-        }
-    });*/
+    form.post('/user/paypal');
 }
 
 </script>

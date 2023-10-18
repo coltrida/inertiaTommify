@@ -23,6 +23,7 @@ class ArtistSeeder extends Seeder
             Artist::create([
                 'user_id' => $artist->id,
                 'tag_id' => \Arr::random($idTags),
+                'emailPaypal' => "sb-e".$artist->id."jum27762599@business.example.com",
                 'created_at' => fake()->dateTimeBetween('-1 year')
             ]);
         }

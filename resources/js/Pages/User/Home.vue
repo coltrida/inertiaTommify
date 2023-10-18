@@ -1,4 +1,5 @@
 <template>
+    <v-container>
     <v-row>
         <v-col cols="12" sm="12">
             <div class="d-flex justify-center">
@@ -105,13 +106,7 @@
         </v-col>
     </v-row>
 
-    <Link :href="route('user.paypal')">
-        <v-btn class="mt-3">
-            paypall
-        </v-btn>
-    </Link>
-
-
+    </v-container>
 </template>
 
 <script setup>

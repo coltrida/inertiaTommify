@@ -60,7 +60,9 @@ class RegisteredUserController extends Controller
             $user->tags()->sync($request->tags);
         }elseif ($request->role === 'artist'){
 
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY_TEST'));
+
+        // ------------------- stripe ----------------------//
+            /*$stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY_TEST'));
             $stripeAccount = $stripe->accounts->create([
                 'type' => 'custom',
                 'country' => 'IT',
@@ -89,18 +91,6 @@ class RegisteredUserController extends Controller
                         'year' => 1975,
                     ],
                 ],
-                /*'external_account' => [
-                    'object' => 'card',
-                    'number' => '4242424242424242',
-                    'currency' => 'eur',
-                    'exp_month' => 2,
-                    'exp_year' => 2024,
-                    "brand" => "Visa",
-                    "funding" => "debit",
-                    "cvc_check" => "pass",
-                    "last4" => "4242",
-                    "cvc" => "123",
-                ],*/
                 'capabilities' => [
                     'card_payments' => ['requested' => true],
                     'transfers' => ['requested' => true],
@@ -115,12 +105,12 @@ class RegisteredUserController extends Controller
                         'ip' => '8.8.8.8',
                     ],
                 ]
-            );
+            );*/
 
             Artist::create([
                 'user_id' => $user->id,
                 'tag_id' => $request->tag,
-                'stripe_id' => $stripeAccount->id,
+           //     'stripe_id' => $stripeAccount->id,
             ]);
         }
 

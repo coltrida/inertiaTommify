@@ -1,5 +1,6 @@
 <template>
     <Head title="Tags" />
+    <v-container>
     <div class="d-flex justify-space-between">
         <div class="text-h3">Tags</div>
         <div class="d-flex" style="width: 30%">
@@ -42,7 +43,7 @@
     >
         {{textMessage}}
     </v-snackbar>
-
+    </v-container>
 </template>
 
 <script setup>

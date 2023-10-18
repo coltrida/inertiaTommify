@@ -1,5 +1,6 @@
 <template>
     <Head title="MyAlbums"/>
+    <v-container>
     <div class="d-flex justify-space-between align-center">
         <div style="width: 100%">
             <v-form @submit.prevent="insertAlbum" enctype="multipart/form-data">
@@ -135,6 +136,8 @@
     >
         Album inserito
     </v-snackbar>
+
+    </v-container>
 </template>
 
 <script setup>

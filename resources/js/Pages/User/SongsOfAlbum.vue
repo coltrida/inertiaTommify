@@ -1,5 +1,6 @@
 <template>
     <Head title="Songs of Albums" />
+    <v-container>
     <div class="d-flex justify-space-between">
         <div class="text-h3">Songs of {{albumConSongs.name}} album</div>
         <Link :href="route('user.albumsOfArtist', albumConSongs.songs[0].alb.artist_id)">
@@ -23,6 +24,7 @@
             </v-list-item>
         </v-list>
     </v-sheet>
+    </v-container>
 </template>
 
 <script setup>

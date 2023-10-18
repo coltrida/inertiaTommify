@@ -1,5 +1,6 @@
 <template>
     <Head title="Info User" />
+    <v-container>
     <div class="d-flex justify-space-between">
         <div class="text-h3">
             Info of User: {{userConAlbumArtist.name}}
@@ -99,7 +100,7 @@
         </tr>
         </tbody>
     </v-table>
-
+    </v-container>
 </template>
 
 <script setup>

@@ -1,5 +1,6 @@
 <template>
     <Head title="Settings" />
+    <v-container>
     <div class="d-flex justify-space-between">
         <div class="text-h3">Settings - ({{userConTags.role}})</div>
     </div>
@@ -85,7 +86,7 @@
     >
         Update done
     </v-snackbar>
-
+    </v-container>
 </template>
 
 <script setup>

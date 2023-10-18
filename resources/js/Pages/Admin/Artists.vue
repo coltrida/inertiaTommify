@@ -1,5 +1,6 @@
 <template>
     <Head title="Artists" />
+    <v-container>
     <div class="d-flex justify-space-between">
         <div class="text-h3">Artists</div>
         <div style="width: 30%">
@@ -46,6 +47,7 @@
         </tr>
         </tbody>
     </v-table>
+    </v-container>
 </template>
 
 <script setup>

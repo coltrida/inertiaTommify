@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('tag_id');
+            $table->string('emailPaypal')->unique()->nullable();
             $table->string('stripe_id')->unique()->nullable();
             $table->timestamps();
         });

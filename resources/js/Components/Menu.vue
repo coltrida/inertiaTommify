@@ -31,7 +31,7 @@
 
             <v-toolbar-title>
                 <Link :href="route('home')">
-                    <v-img width="200" src="/img/logo.jpg"></v-img>
+                    <v-img width="200" src="/img/logo.jpg" title="home"></v-img>
                 </Link>
             </v-toolbar-title>
 

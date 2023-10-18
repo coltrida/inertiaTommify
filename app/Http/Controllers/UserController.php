@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AlbumBuy;
+use App\Models\Album;
 use App\Models\Order;
 use App\Models\Tag;
 use App\Services\AlbumService;
@@ -111,8 +112,9 @@ class UserController extends Controller
         $userService->segnaLettoNotizie(Auth::id());
     }
 
-    public function paypal()
+    public function paypal(Request $request)
     {
+     //   dd($request->album);
         $provider = new PayPal();
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
@@ -125,41 +127,44 @@ class UserController extends Controller
             ],
             "purchase_units" => [
                 [
+                    'reference_id' => $request->album['id'],
                     'amount' => [
-                        "currency_code" => "USD",
-                        "value" => "100.00"
+                        "currency_code" => "EUR",
+                        "value" => $request->album['price']
+                    ],
+                    "payee" => [
+                        "email_address" => $request->album['artist']['emailPaypal']
                     ]
                 ]
-            ]
+            ],
         ]);
-
-     //   dd($response);
 
         if (isset($response['id']) && $response['id']!=null){
             foreach ($response['links'] as $link){
                 if ($link['rel'] === 'approve') {
                     return Inertia::location($link['href']);
-        //            return redirect()->away($link['href']);
-//                    return Http::get($link['href']);
                 }
             }
         } else {
             return to_route('user.paypal.cancel');
- //           return redirect()->route('user.paypal.cancel');
         }
     }
 
-    public function successPaypal(Request $request)
+    public function successPaypal(Request $request, AlbumService $albumService)
     {
+        //dd($request);
         $provider = new PayPal();
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request->token);
 
-       // dd($response);
+     //   dd($response);
 
         if (isset($response['status']) && $response['status'] == 'COMPLETED'){
-            return "Payment is successful";
+            $album = Album::find($response['purchase_units'][0]['reference_id'])->toArray();
+            $albumService->buyAlbum($album);
+            Mail::to('coltrida@gmail.com')->queue(new AlbumBuy($album));
+            return to_route('user.albumsOfArtist', $album['artist_id']);
         } else {
             return to_route('user.paypal.cancel');
         }

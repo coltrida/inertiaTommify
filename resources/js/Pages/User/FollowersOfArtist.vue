@@ -1,5 +1,6 @@
 <template>
     <Head title="Followers" />
+    <v-container>
     <div class="d-flex justify-space-between">
         <div class="text-h3">Followers of artist: {{artistConFollowers.user.name}}</div>
         <div>
@@ -54,7 +55,7 @@
         </tbody>
 
     </v-table>
-
+    </v-container>
 </template>
 
 <script setup>
