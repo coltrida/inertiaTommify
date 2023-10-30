@@ -19,14 +19,14 @@ class FrontController extends Controller
             'phpVersion' => PHP_VERSION,
         ]);*/
 
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY_TEST'));
+     //   $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY_TEST'));
 
       //  dd($stripe->balance->retrieve([]));
-        $stripe->transfers->create([
+/*        $stripe->transfers->create([
             'amount' => 500,
             'currency' => 'usd',
             'destination' => 'acct_1O0AFjQxlLYvJpc2',
-        ]);
+        ]);*/
 
         return Inertia::render('Home', [
             'lastCinqueAlbum' => $albumService->lastCinqueAlbum(),

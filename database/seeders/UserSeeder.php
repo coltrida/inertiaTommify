@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
         ]);
 
-        User::create([
+/*        User::create([
             'name' => 'cacao',
             'email' => 'cacao@cacao.it',
             'role' => 'user',
@@ -46,6 +46,6 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
         ]);
 
-        User::factory(50)->create();
+        User::factory(50)->create();*/
     }
 }
